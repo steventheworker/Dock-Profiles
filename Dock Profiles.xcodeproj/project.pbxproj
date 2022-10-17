@@ -8,19 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		BFB2A4C828FBA33B008170CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4C728FBA33B008170CC /* AppDelegate.m */; };
-		BFB2A4CA28FBA33C008170CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFB2A4C928FBA33C008170CC /* Assets.xcassets */; };
 		BFB2A4CD28FBA33C008170CC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFB2A4CB28FBA33C008170CC /* MainMenu.xib */; };
 		BFB2A4CF28FBA33C008170CC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4CE28FBA33C008170CC /* main.m */; };
+		BFB2A4DA28FCE894008170CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFB2A4D928FCE894008170CC /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BFB2A4C328FBA33B008170CC /* Dock Profiles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dock Profiles.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFB2A4C628FBA33B008170CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BFB2A4C728FBA33B008170CC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		BFB2A4C928FBA33C008170CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BFB2A4CC28FBA33C008170CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BFB2A4CE28FBA33C008170CC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BFB2A4D028FBA33C008170CC /* Dock_Profiles.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dock_Profiles.entitlements; sourceTree = "<group>"; };
+		BFB2A4D928FCE894008170CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +55,7 @@
 			children = (
 				BFB2A4C628FBA33B008170CC /* AppDelegate.h */,
 				BFB2A4C728FBA33B008170CC /* AppDelegate.m */,
-				BFB2A4C928FBA33C008170CC /* Assets.xcassets */,
+				BFB2A4D928FCE894008170CC /* Assets.xcassets */,
 				BFB2A4CB28FBA33C008170CC /* MainMenu.xib */,
 				BFB2A4CE28FBA33C008170CC /* main.m */,
 				BFB2A4D028FBA33C008170CC /* Dock_Profiles.entitlements */,
@@ -120,7 +120,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFB2A4CA28FBA33C008170CC /* Assets.xcassets in Resources */,
+				BFB2A4DA28FCE894008170CC /* Assets.xcassets in Resources */,
 				BFB2A4CD28FBA33C008170CC /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
