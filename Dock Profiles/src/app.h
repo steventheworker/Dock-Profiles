@@ -12,6 +12,5 @@ NS_ASSUME_NONNULL_BEGIN
 + (void) init;
 + (void) checkForUpdates;
 + (void) calcScreens;
-+ (NSString*) getCurrentVersion;
 @end
 NS_ASSUME_NONNULL_END
