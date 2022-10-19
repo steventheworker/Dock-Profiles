@@ -27,7 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (void) listenScreens;
 + (void) listenClicks;
 + (AppDelegate *) getApp;
-+ (NSString*) get: (NSString*) url; // http(s) "GET"
++ (void) fetchBinary: (NSString*) url : (void(^)(NSData* _Nullable data)) cb;
++ (void) fetch: (NSString*) url : (void(^)(NSString* data)) cb;
++ (void) fetchJSONArray: (NSString*) url : (void(^)(NSArray* data)) cb;
++ (void) fetchJSONDict: (NSString*) url : (void(^)(NSDictionary* data)) cb;
 + (void) killDock;
 + (void) dockSetting: (CFStringRef) pref : (BOOL) val;
 + (void) dockSettingFloat: (CFStringRef) pref : (float) val;
