@@ -12,5 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (void) init;
 + (void) checkForUpdates;
 + (void) calcScreens;
++ (void) saveAppList: (void(^)(void)) cb;
 @end
 NS_ASSUME_NONNULL_END
