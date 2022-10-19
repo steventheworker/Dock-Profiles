@@ -11,6 +11,8 @@
 		BFB2A4CD28FBA33C008170CC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFB2A4CB28FBA33C008170CC /* MainMenu.xib */; };
 		BFB2A4CF28FBA33C008170CC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4CE28FBA33C008170CC /* main.m */; };
 		BFB2A4DA28FCE894008170CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFB2A4D928FCE894008170CC /* Assets.xcassets */; };
+		BFB2A4E728FF9038008170CC /* helper-lib.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4E628FF9038008170CC /* helper-lib.m */; };
+		BFB2A4EB28FF9058008170CC /* app.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4EA28FF9058008170CC /* app.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,10 @@
 		BFB2A4CE28FBA33C008170CC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BFB2A4D028FBA33C008170CC /* Dock_Profiles.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dock_Profiles.entitlements; sourceTree = "<group>"; };
 		BFB2A4D928FCE894008170CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BFB2A4E528FF9038008170CC /* helper-lib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "helper-lib.h"; sourceTree = "<group>"; };
+		BFB2A4E628FF9038008170CC /* helper-lib.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "helper-lib.m"; sourceTree = "<group>"; };
+		BFB2A4E928FF9058008170CC /* app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = app.h; sourceTree = "<group>"; };
+		BFB2A4EA28FF9058008170CC /* app.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = app.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +59,7 @@
 		BFB2A4C528FBA33B008170CC /* Dock Profiles */ = {
 			isa = PBXGroup;
 			children = (
+				BFB2A4E428FF901A008170CC /* src */,
 				BFB2A4C628FBA33B008170CC /* AppDelegate.h */,
 				BFB2A4C728FBA33B008170CC /* AppDelegate.m */,
 				BFB2A4D928FCE894008170CC /* Assets.xcassets */,
@@ -61,6 +68,17 @@
 				BFB2A4D028FBA33C008170CC /* Dock_Profiles.entitlements */,
 			);
 			path = "Dock Profiles";
+			sourceTree = "<group>";
+		};
+		BFB2A4E428FF901A008170CC /* src */ = {
+			isa = PBXGroup;
+			children = (
+				BFB2A4E528FF9038008170CC /* helper-lib.h */,
+				BFB2A4E628FF9038008170CC /* helper-lib.m */,
+				BFB2A4E928FF9058008170CC /* app.h */,
+				BFB2A4EA28FF9058008170CC /* app.m */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,6 +151,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFB2A4CF28FBA33C008170CC /* main.m in Sources */,
+				BFB2A4EB28FF9058008170CC /* app.m in Sources */,
+				BFB2A4E728FF9038008170CC /* helper-lib.m in Sources */,
 				BFB2A4C828FBA33B008170CC /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

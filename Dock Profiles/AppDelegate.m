@@ -6,6 +6,8 @@
 //
 
 #import "AppDelegate.h"
+#import "src/helper-lib.h"
+#import "src/app.h"
 
 @interface AppDelegate ()
 
@@ -13,20 +15,17 @@
 @end
 
 @implementation AppDelegate
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
+/* Events */
+- (void) bindScreens {[app calcScreens];}
+- (void) bindClick:(CGEventRef)e {
+    NSLog(@"click");
 }
+/* UI */
 
-
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
-}
-
-
-- (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {
-    return YES;
-}
-
+/* LifeCycle */
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) sender {[[NSApplication sharedApplication] terminate: self];return true;} // NSApplication.shared.terminate(self)
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {[app init];}
+- (void)applicationWillTerminate:(NSNotification *)aNotification {}
+- (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {return YES;}
 
 @end
