@@ -15,23 +15,13 @@ NSString* const versionLink = @"https://dockprofiles.netlify.app/currentversion.
 NSMutableDictionary* Config = nil;
 
 /* helpers fn's */
-void processAppData(NSString* data, void (^cb)(void)) {
-    NSXMLDocument* xml = [[NSXMLDocument document] initWithXMLString:data options:0 error:nil];
-    // NSLog(@"%@", [[[[xml childAtIndex:0] childAtIndex:0] childAtIndex:0] childAtIndex:3]);
-    // Config[key] = parsedxml;
-    // write config.json = json.stringify(Config)
-    cb();
-}
 // config
 NSData* fileData(NSString* fileName, NSString* fileType) {return [NSData dataWithContentsOfFile: [[NSBundle mainBundle] pathForResource:fileName ofType:fileType]];}
 NSDictionary* loadJSON(NSString* fileName) {return [NSJSONSerialization JSONObjectWithData: fileData(fileName, @"json") options:kNilOptions error:nil];}
-void loadConfig(void) {
-    void (^onAppsLoaded)(void) = ^(void) {
-        NSLog(@"apps loaded! render UI");
-    };
+void loadConfig(void (^cb) (void)) {
     Config = [NSMutableDictionary dictionaryWithDictionary: DefaultConfig];
     [Config addEntriesFromDictionary: loadJSON(@"config")];
-    if (!Config[@"apps"]) [app saveAppList : onAppsLoaded]; else onAppsLoaded(); // get full apps list, save in config.json
+    if (!Config[@"apps"]) [app saveAppList : cb]; else cb(); // get full apps list (if DNE), save in config.json
 }
 
 @implementation app
@@ -48,18 +38,34 @@ void loadConfig(void) {
     //permissions
     del->_systemWideAccessibilityObject = AXUIElementCreateSystemWide();
     [app checkForUpdates];
-    loadConfig();
+    loadConfig(^{
+        NSLog(@"apps loaded! render UI!");
+    });
 }
 + (void) saveAppList : (void(^)(void)) cb {
+    void (^processShellOutput)(NSString* dataString) = ^(NSString* dataString) {
+        NSXMLDocument* xml = [[NSXMLDocument document] initWithXMLString:dataString options:0 error:nil];
+        
+        NSLog(@"%@", [xml childAtIndex:0]);
+        NSLog(@"childCount %lu", [xml childCount]);
+
+//        NSLog(@"%@", xml);
+
+        //             NSLog(@"%@", [[[[xml childAtIndex:0] childAtIndex:0] childAtIndex:0] childAtIndex:3]);
+        // Config[key] = parsedxml;
+        // write config.json = json.stringify(Config)
+        cb();
+    };
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath:@"/usr/sbin/system_profiler"]; // system_profiler -detailLevel full SPApplicationsDataType
     [task setArguments:[NSArray arrayWithObjects:@"-detailLevel", @"full", @"SPApplicationsDataType", @"-xml", nil]];
     NSPipe *outputPipe = [NSPipe pipe];
     [task setStandardOutput:outputPipe];
+    //wait until ReadToEndOfFile finished
     [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleReadToEndOfFileCompletionNotification object:[outputPipe fileHandleForReading] queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadToEndOfFileCompletionNotification object:[notification object]];
         NSData* data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-        processAppData([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding], cb);
+        processShellOutput([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
     }];
     [[outputPipe fileHandleForReading] readToEndOfFileInBackgroundAndNotify];
     [task launch];
