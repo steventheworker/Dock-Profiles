@@ -15,13 +15,12 @@ NSDictionary* appAliases = @{
 };
 
 //prepare click handling
-static CGEventRef handleClick( CGEventRef clickHandler,
-                              CGEventTapProxy proxy ,
-                              CGEventType type ,
-                              CGEventRef event ,
-                              void * refcon ) {
-    [[helperLib getApp] bindClick:event];
-    return event;
+CGEventTapCallBack handleClick(CGEventTapProxy proxy ,
+                                  CGEventType type ,
+                                  CGEventRef event ,
+                                  void * refcon ) {
+    [[helperLib getApp] bindClick:event : type];
+    return (CGEventTapCallBack) nil;
 }
 //listening to monitors attach / detach
 void proc(CGDirectDisplayID display, CGDisplayChangeSummaryFlags flags, void* userInfo) {
@@ -280,7 +279,7 @@ void proc(CGDirectDisplayID display, CGDisplayChangeSummaryFlags flags, void* us
     CGEventMask emask;
     CFMachPortRef myEventTap;
     CFRunLoopSourceRef eventTapRLSrc;
-    emask = CGEventMaskBit(kCGEventLeftMouseDown);
+    emask = CGEventMaskBit(kCGEventLeftMouseDown) | CGEventMaskBit(kCGEventRightMouseDown);
     myEventTap = CGEventTapCreate (
         kCGSessionEventTap, // Catch all events for current user session
         kCGTailAppendEventTap, // Append to end of EventTap list

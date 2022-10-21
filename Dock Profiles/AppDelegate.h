@@ -31,7 +31,7 @@
     //UI
     
 }
-- (void) bindClick: (CGEventRef) e;
+- (void) bindClick: (CGEventRef) e : (CGEventType) type;
 - (void) bindScreens;
 @end
 

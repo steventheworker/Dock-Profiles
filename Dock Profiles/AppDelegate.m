@@ -17,8 +17,9 @@
 @implementation AppDelegate
 /* Events */
 - (void) bindScreens {[app calcScreens];}
-- (void) bindClick:(CGEventRef)e {
-    NSLog(@"click");
+- (void) bindClick: (CGEventRef)e : (CGEventType) etype {
+    BOOL rightBtn = (etype == kCGEventRightMouseDown);
+    NSLog(@"%@ click", rightBtn ? @"right" : @"left");
 }
 /* UI */
 
