@@ -8,6 +8,7 @@
 #import "app.h"
 #import "helper-lib.h"
 #import "globals.h"
+#import "Apps.h"
 
 NSDictionary* const DefaultConfig = @{
     @"item1": @4
@@ -24,58 +25,104 @@ void loadConfig(void (^cb) (void)) {
     [Config addEntriesFromDictionary: loadJSON(@"config")];
     if (!Config[@"apps"]) [app saveAppList : cb]; else cb(); // get full apps list (if DNE), save in config.json
 }
+void AddAppToConfig(NSString* name, NSString* path) {
+    if (!Config[@"apps"]) Config[@"apps"] = [NSMutableDictionary new]; // [Config insertValue:[] inPropertyWithKey:@"apps"];
+    Config[@"apps"][name] = [Apps getAppDict: name : path];
+}
 
+
+void AddEventListeners(void) {
+    // ask for input monitoring first
+    [helperLib listenClicks];
+    // ask for accessibility
+    NSDictionary* options = @{(__bridge NSString*)(kAXTrustedCheckOptionPrompt) : @YES};
+    if (!AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)options)) {
+        [NSTimer scheduledTimerWithTimeInterval:3.0
+        repeats:YES
+        block:^(NSTimer* timer) {
+            if (AXIsProcessTrusted()) { // [self relaunchIfProcessTrusted];
+                [NSTask launchedTaskWithLaunchPath:[[NSBundle mainBundle] executablePath] arguments:@[]];
+                [NSApp terminate:nil];
+            }
+        }];
+    }
+    // "free" events
+    [helperLib listenScreens];
+}
 @implementation app
 // onLaunch
 + (void) init {
     NSLog(@"%@", @"running app :)\n-------------------------------------------------------------------");
     AppDelegate* del = [helperLib getApp];
+    //add permissions
+    del->_systemWideAccessibilityObject = AXUIElementCreateSystemWide();
+    AddEventListeners();
     //functional
     [del bindScreens]; //load screen data
     del->dockPos = [helperLib getDockPosition];
     del->dockPID = [helperLib getPID:@"com.apple.dock"]; //todo: refresh dockPID every x or so?
     //UI variables
     del->appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    //permissions
-    del->_systemWideAccessibilityObject = AXUIElementCreateSystemWide();
     [app checkForUpdates];
     loadConfig(^{
         NSLog(@"apps loaded! render UI!");
+        NSLog(@"%@", Config);
     });
+}
++ (void) saveConfig {
+    // nsdictionary* -> json string
 }
 + (void) saveAppList : (void(^)(void)) cb {
     void (^processShellOutput)(NSString* data) = ^(NSString* data) {
-        return NSLog(@"%@", [data substringWithRange: NSMakeRange([data length] - 1000, 1000)]);
-//        [[NSXMLDocument document] initWithData:<#(nonnull NSData *)#> encoding:<#(NSStringEncoding)#>]
         NSXMLDocument* xml = [[NSXMLDocument document] initWithXMLString:data options:0 error:nil];
-        
-        NSLog(@"%@", [xml childAtIndex:0]);
-        NSLog(@"childCount %lu", [xml childCount]);
-
-//        NSLog(@"%@", xml);
-
-        //             NSLog(@"%@", [[[[xml childAtIndex:0] childAtIndex:0] childAtIndex:0] childAtIndex:3]);
-        // Config[key] = parsedxml;
-        // write config.json = json.stringify(Config)
+        NSXMLNode *el = [[[[xml childAtIndex:0] childAtIndex:0] childAtIndex:0] childAtIndex:11];
+        for (NSXMLNode* _el in [el children]) {
+//                        if ([_el childCount] >= 11 && [[[_el childAtIndex:10] stringValue] isEqual:@"path"])
+//                        if ( [[[_el childAtIndex:8] stringValue] isEqual:@"path"])
+            NSString* appName;
+            NSString* path;
+            for (int i = 0; i < [_el childCount] / 2; i++) {
+                NSXMLNode* label = [_el childAtIndex: i * 2];
+                NSXMLNode* val = [_el childAtIndex: i * 2 + 1];
+                if ([[label stringValue] isEqual:@"_name"]) appName = [val stringValue];
+                if ([[label stringValue] isEqual:@"path"]) path = [val stringValue];
+            }
+            AddAppToConfig(appName, path);
+        }
+        [app saveConfig];
         cb();
     };
+// handle nstask output as its coming
+//    NSTask *task = [[NSTask alloc] init];
+//    [task setLaunchPath:@"/usr/sbin/system_profiler"]; // system_profiler -detailLevel full SPApplicationsDataType
+//    [task setArguments:[NSArray arrayWithObjects:@"-detailLevel", @"full", @"SPApplicationsDataType", @"-xml", nil]];
+//    NSPipe *pipe = [NSPipe pipe];
+//    [task setStandardOutput:pipe];
+//    NSFileHandle *fileHandle = [pipe fileHandleForReading];
+//    NSMutableArray* buff = [NSMutableArray new];
+//    [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification object:fileHandle queue: nil
+//    usingBlock:^(NSNotification * _Nonnull notification) {
+//        NSData* data = [notification.object availableData];
+//        NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//        if (![str isEqual:@""]) {
+//            [notification.object waitForDataInBackgroundAndNotify];
+//            [buff addObject:str];
+//        } else processShellOutput([buff componentsJoinedByString:@"\n"]);
+//    }];
+//    [fileHandle waitForDataInBackgroundAndNotify];
+//    [task launch];
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath:@"/usr/sbin/system_profiler"]; // system_profiler -detailLevel full SPApplicationsDataType
     [task setArguments:[NSArray arrayWithObjects:@"-detailLevel", @"full", @"SPApplicationsDataType", @"-xml", nil]];
-    NSPipe *pipe = [NSPipe pipe];
-    [task setStandardOutput:pipe];
-    NSFileHandle *fileHandle = [pipe fileHandleForReading];
-    NSMutableArray* buff = [NSMutableArray new];
-    [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification object:fileHandle queue: nil
-    usingBlock:^(NSNotification * _Nonnull notification) {
-        NSData* data = [notification.object availableData];
-        NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        if (![str isEqual:@""]) {
-            [notification.object waitForDataInBackgroundAndNotify];
-            [buff addObject:str];
-        } else processShellOutput([buff componentsJoinedByString:@"\n"]);
+    NSPipe *outputPipe = [NSPipe pipe];
+    [task setStandardOutput:outputPipe];
+    //wait until ReadToEndOfFile finished
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleReadToEndOfFileCompletionNotification object:[outputPipe fileHandleForReading] queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadToEndOfFileCompletionNotification object:[notification object]];
+        NSData* data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+        processShellOutput([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
     }];
-    [fileHandle waitForDataInBackgroundAndNotify];
+    [[outputPipe fileHandleForReading] readToEndOfFileInBackgroundAndNotify];
     [task launch];
 }
 + (void) checkForUpdates {

@@ -15,6 +15,7 @@
 		BFB2A4E728FF9038008170CC /* helper-lib.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4E628FF9038008170CC /* helper-lib.m */; };
 		BFB2A4EB28FF9058008170CC /* app.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4EA28FF9058008170CC /* app.m */; };
 		BFB2A4ED29000CA9008170CC /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = BFB2A4EC29000CA9008170CC /* config.json */; };
+		BFD910942905788C00A7AD7A /* Apps.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD910932905788C00A7AD7A /* Apps.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		BFB2A4E928FF9058008170CC /* app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = app.h; sourceTree = "<group>"; };
 		BFB2A4EA28FF9058008170CC /* app.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = app.m; sourceTree = "<group>"; };
 		BFB2A4EC29000CA9008170CC /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
+		BFD910922905788C00A7AD7A /* Apps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Apps.h; sourceTree = "<group>"; };
+		BFD910932905788C00A7AD7A /* Apps.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Apps.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +88,8 @@
 				BFB2A4E628FF9038008170CC /* helper-lib.m */,
 				BFB2A4E928FF9058008170CC /* app.h */,
 				BFB2A4EA28FF9058008170CC /* app.m */,
+				BFD910922905788C00A7AD7A /* Apps.h */,
+				BFD910932905788C00A7AD7A /* Apps.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFB2A4CF28FBA33C008170CC /* main.m in Sources */,
+				BFD910942905788C00A7AD7A /* Apps.m in Sources */,
 				BF53A9462905204C003BAF27 /* globals.m in Sources */,
 				BFB2A4EB28FF9058008170CC /* app.m in Sources */,
 				BFB2A4E728FF9038008170CC /* helper-lib.m in Sources */,
