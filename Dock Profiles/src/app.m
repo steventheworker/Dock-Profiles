@@ -32,8 +32,7 @@ void AddAppToConfig(NSString* name, NSString* path) {
 
 
 void AddEventListeners(void) {
-    // ask for input monitoring first
-    [helperLib listenClicks];
+    [helperLib listenClicks]; // ask for input monitoring first
     // ask for accessibility
     NSDictionary* options = @{(__bridge NSString*)(kAXTrustedCheckOptionPrompt) : @YES};
     if (!AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)options)) {
@@ -46,7 +45,7 @@ void AddEventListeners(void) {
             }
         }];
     }
-    // "free" events
+    // permission-free events
     [helperLib listenScreens];
 }
 @implementation app
@@ -66,7 +65,6 @@ void AddEventListeners(void) {
     [app checkForUpdates];
     loadConfig(^{
         NSLog(@"apps loaded! render UI!");
-        NSLog(@"%@", Config);
     });
 }
 + (void) saveConfig {
@@ -92,25 +90,6 @@ void AddEventListeners(void) {
         [app saveConfig];
         cb();
     };
-// handle nstask output as its coming
-//    NSTask *task = [[NSTask alloc] init];
-//    [task setLaunchPath:@"/usr/sbin/system_profiler"]; // system_profiler -detailLevel full SPApplicationsDataType
-//    [task setArguments:[NSArray arrayWithObjects:@"-detailLevel", @"full", @"SPApplicationsDataType", @"-xml", nil]];
-//    NSPipe *pipe = [NSPipe pipe];
-//    [task setStandardOutput:pipe];
-//    NSFileHandle *fileHandle = [pipe fileHandleForReading];
-//    NSMutableArray* buff = [NSMutableArray new];
-//    [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification object:fileHandle queue: nil
-//    usingBlock:^(NSNotification * _Nonnull notification) {
-//        NSData* data = [notification.object availableData];
-//        NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//        if (![str isEqual:@""]) {
-//            [notification.object waitForDataInBackgroundAndNotify];
-//            [buff addObject:str];
-//        } else processShellOutput([buff componentsJoinedByString:@"\n"]);
-//    }];
-//    [fileHandle waitForDataInBackgroundAndNotify];
-//    [task launch];
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath:@"/usr/sbin/system_profiler"]; // system_profiler -detailLevel full SPApplicationsDataType
     [task setArguments:[NSArray arrayWithObjects:@"-detailLevel", @"full", @"SPApplicationsDataType", @"-xml", nil]];
