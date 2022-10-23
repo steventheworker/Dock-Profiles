@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF53A9462905204C003BAF27 /* globals.m in Sources */ = {isa = PBXBuildFile; fileRef = BF53A9452905204C003BAF27 /* globals.m */; };
 		BFB2A4C828FBA33B008170CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4C728FBA33B008170CC /* AppDelegate.m */; };
 		BFB2A4CD28FBA33C008170CC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFB2A4CB28FBA33C008170CC /* MainMenu.xib */; };
 		BFB2A4CF28FBA33C008170CC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4CE28FBA33C008170CC /* main.m */; };
@@ -17,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BF53A9442905204C003BAF27 /* globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
+		BF53A9452905204C003BAF27 /* globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = globals.m; sourceTree = "<group>"; };
 		BFB2A4C328FBA33B008170CC /* Dock Profiles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dock Profiles.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFB2A4C628FBA33B008170CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BFB2A4C728FBA33B008170CC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -76,6 +79,8 @@
 		BFB2A4E428FF901A008170CC /* src */ = {
 			isa = PBXGroup;
 			children = (
+				BF53A9442905204C003BAF27 /* globals.h */,
+				BF53A9452905204C003BAF27 /* globals.m */,
 				BFB2A4E528FF9038008170CC /* helper-lib.h */,
 				BFB2A4E628FF9038008170CC /* helper-lib.m */,
 				BFB2A4E928FF9058008170CC /* app.h */,
@@ -155,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFB2A4CF28FBA33C008170CC /* main.m in Sources */,
+				BF53A9462905204C003BAF27 /* globals.m in Sources */,
 				BFB2A4EB28FF9058008170CC /* app.m in Sources */,
 				BFB2A4E728FF9038008170CC /* helper-lib.m in Sources */,
 				BFB2A4C828FBA33B008170CC /* AppDelegate.m in Sources */,

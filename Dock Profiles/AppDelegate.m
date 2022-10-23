@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 #import "src/helper-lib.h"
 #import "src/app.h"
+#import "src/globals.h"
 
 @interface AppDelegate ()
 
@@ -28,5 +29,4 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {[app init];}
 - (void)applicationWillTerminate:(NSNotification *)aNotification {}
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {return YES;}
-
 @end

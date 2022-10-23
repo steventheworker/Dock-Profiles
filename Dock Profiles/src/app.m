@@ -7,6 +7,7 @@
 
 #import "app.h"
 #import "helper-lib.h"
+#import "globals.h"
 
 NSDictionary* const DefaultConfig = @{
     @"item1": @4
@@ -43,8 +44,10 @@ void loadConfig(void (^cb) (void)) {
     });
 }
 + (void) saveAppList : (void(^)(void)) cb {
-    void (^processShellOutput)(NSString* dataString) = ^(NSString* dataString) {
-        NSXMLDocument* xml = [[NSXMLDocument document] initWithXMLString:dataString options:0 error:nil];
+    void (^processShellOutput)(NSString* data) = ^(NSString* data) {
+        return NSLog(@"%@", [data substringWithRange: NSMakeRange([data length] - 1000, 1000)]);
+//        [[NSXMLDocument document] initWithData:<#(nonnull NSData *)#> encoding:<#(NSStringEncoding)#>]
+        NSXMLDocument* xml = [[NSXMLDocument document] initWithXMLString:data options:0 error:nil];
         
         NSLog(@"%@", [xml childAtIndex:0]);
         NSLog(@"childCount %lu", [xml childCount]);
@@ -59,15 +62,20 @@ void loadConfig(void (^cb) (void)) {
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath:@"/usr/sbin/system_profiler"]; // system_profiler -detailLevel full SPApplicationsDataType
     [task setArguments:[NSArray arrayWithObjects:@"-detailLevel", @"full", @"SPApplicationsDataType", @"-xml", nil]];
-    NSPipe *outputPipe = [NSPipe pipe];
-    [task setStandardOutput:outputPipe];
-    //wait until ReadToEndOfFile finished
-    [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleReadToEndOfFileCompletionNotification object:[outputPipe fileHandleForReading] queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadToEndOfFileCompletionNotification object:[notification object]];
-        NSData* data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-        processShellOutput([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    NSPipe *pipe = [NSPipe pipe];
+    [task setStandardOutput:pipe];
+    NSFileHandle *fileHandle = [pipe fileHandleForReading];
+    NSMutableArray* buff = [NSMutableArray new];
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification object:fileHandle queue: nil
+    usingBlock:^(NSNotification * _Nonnull notification) {
+        NSData* data = [notification.object availableData];
+        NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if (![str isEqual:@""]) {
+            [notification.object waitForDataInBackgroundAndNotify];
+            [buff addObject:str];
+        } else processShellOutput([buff componentsJoinedByString:@"\n"]);
     }];
-    [[outputPipe fileHandleForReading] readToEndOfFileInBackgroundAndNotify];
+    [fileHandle waitForDataInBackgroundAndNotify];
     [task launch];
 }
 + (void) checkForUpdates {
