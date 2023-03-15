@@ -14,8 +14,8 @@
 		BFB2A4DA28FCE894008170CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFB2A4D928FCE894008170CC /* Assets.xcassets */; };
 		BFB2A4E728FF9038008170CC /* helper-lib.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4E628FF9038008170CC /* helper-lib.m */; };
 		BFB2A4EB28FF9058008170CC /* app.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4EA28FF9058008170CC /* app.m */; };
-		BFB2A4ED29000CA9008170CC /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = BFB2A4EC29000CA9008170CC /* config.json */; };
 		BFD910942905788C00A7AD7A /* Apps.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD910932905788C00A7AD7A /* Apps.m */; };
+		BFE2072C29C14E15004FCEE2 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = BFE2072B29C14E15004FCEE2 /* config.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,9 +32,9 @@
 		BFB2A4E628FF9038008170CC /* helper-lib.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "helper-lib.m"; sourceTree = "<group>"; };
 		BFB2A4E928FF9058008170CC /* app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = app.h; sourceTree = "<group>"; };
 		BFB2A4EA28FF9058008170CC /* app.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = app.m; sourceTree = "<group>"; };
-		BFB2A4EC29000CA9008170CC /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		BFD910922905788C00A7AD7A /* Apps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Apps.h; sourceTree = "<group>"; };
 		BFD910932905788C00A7AD7A /* Apps.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Apps.m; sourceTree = "<group>"; };
+		BFE2072B29C14E15004FCEE2 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,8 +69,8 @@
 			children = (
 				BFB2A4E428FF901A008170CC /* src */,
 				BFB2A4C628FBA33B008170CC /* AppDelegate.h */,
+				BFE2072B29C14E15004FCEE2 /* config.json */,
 				BFB2A4C728FBA33B008170CC /* AppDelegate.m */,
-				BFB2A4EC29000CA9008170CC /* config.json */,
 				BFB2A4D928FCE894008170CC /* Assets.xcassets */,
 				BFB2A4CB28FBA33C008170CC /* MainMenu.xib */,
 				BFB2A4CE28FBA33C008170CC /* main.m */,
@@ -153,7 +153,7 @@
 			files = (
 				BFB2A4DA28FCE894008170CC /* Assets.xcassets in Resources */,
 				BFB2A4CD28FBA33C008170CC /* MainMenu.xib in Resources */,
-				BFB2A4ED29000CA9008170CC /* config.json in Resources */,
+				BFE2072C29C14E15004FCEE2 /* config.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

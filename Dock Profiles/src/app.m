@@ -22,7 +22,8 @@ NSData* fileData(NSString* fileName, NSString* fileType) {return [NSData dataWit
 NSDictionary* loadJSON(NSString* fileName) {return [NSJSONSerialization JSONObjectWithData: fileData(fileName, @"json") options:kNilOptions error:nil];}
 void loadConfig(void (^cb) (void)) {
     Config = [NSMutableDictionary dictionaryWithDictionary: DefaultConfig];
-    [Config addEntriesFromDictionary: loadJSON(@"config")];
+    NSDictionary* jsonDict = loadJSON(@"config");
+    [Config addEntriesFromDictionary: jsonDict];
     if (!Config[@"apps"]) [app saveAppList : cb]; else cb(); // get full apps list (if DNE), save in config.json
 }
 void AddAppToConfig(NSString* name, NSString* path) {
@@ -68,7 +69,10 @@ void AddEventListeners(void) {
     });
 }
 + (void) saveConfig {
-    // nsdictionary* -> json string
+
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"config" ofType:@"json"];
+    NSData* data = [NSJSONSerialization dataWithJSONObject:Config options:kNilOptions error:nil];
+    [data writeToFile:path atomically:YES];
 }
 + (void) saveAppList : (void(^)(void)) cb {
     void (^processShellOutput)(NSString* data) = ^(NSString* data) {
