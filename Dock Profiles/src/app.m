@@ -14,23 +14,20 @@ NSDictionary* const DefaultConfig = @{
     @"item1": @4
 };
 NSString* const versionLink = @"https://dockprofiles.netlify.app/currentversion.txt";
-NSMutableDictionary* Config = nil;
+NSMutableDictionary* Config = nil; // uses the "data" NSUserDefault to hold json for the whole config
 
-/* helpers fn's */
-// config
-NSData* fileData(NSString* fileName, NSString* fileType) {return [NSData dataWithContentsOfFile: [[NSBundle mainBundle] pathForResource:fileName ofType:fileType]];}
-NSDictionary* loadJSON(NSString* fileName) {return [NSJSONSerialization JSONObjectWithData: fileData(fileName, @"json") options:kNilOptions error:nil];}
-void loadConfig(void (^cb) (void)) {
-    Config = [NSMutableDictionary dictionaryWithDictionary: DefaultConfig];
-    NSDictionary* jsonDict = loadJSON(@"config");
-    [Config addEntriesFromDictionary: jsonDict];
-    if (!Config[@"apps"]) [app saveAppList : cb]; else cb(); // get full apps list (if DNE), save in config.json
-}
 void AddAppToConfig(NSString* name, NSString* path) {
     if (!Config[@"apps"]) Config[@"apps"] = [NSMutableDictionary new]; // [Config insertValue:[] inPropertyWithKey:@"apps"];
     Config[@"apps"][name] = [Apps getAppDict: name : path];
 }
-
+void loadConfig(void (^cb) (void)) {
+    Config = [NSMutableDictionary dictionaryWithDictionary: DefaultConfig];
+    NSData* jsonData = [[NSUserDefaults standardUserDefaults] dataForKey:@"data"];
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData ? jsonData : [NSData dataWithBytes:nil length:0] options:NSJSONReadingAllowFragments error:nil];
+    [Config addEntriesFromDictionary: jsonDict];
+    NSLog(@"%@", Config[@"item1"]);
+    if (!Config[@"apps"]) [app saveAppList : cb]; else cb(); // get full apps list (if DNE), save in config.json
+}
 
 void AddEventListeners(void) {
     [helperLib listenClicks]; // ask for input monitoring first
@@ -69,10 +66,10 @@ void AddEventListeners(void) {
     });
 }
 + (void) saveConfig {
-
-    NSString* path = [[NSBundle mainBundle] pathForResource:@"config" ofType:@"json"];
-    NSData* data = [NSJSONSerialization dataWithJSONObject:Config options:kNilOptions error:nil];
-    [data writeToFile:path atomically:YES];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:Config options:NSJSONWritingPrettyPrinted error:nil];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:jsonData forKey:@"data"];
+    [userDefaults synchronize];
 }
 + (void) saveAppList : (void(^)(void)) cb {
     void (^processShellOutput)(NSString* data) = ^(NSString* data) {
