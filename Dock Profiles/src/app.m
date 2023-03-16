@@ -25,7 +25,6 @@ void loadConfig(void (^cb) (void)) {
     NSData* jsonData = [[NSUserDefaults standardUserDefaults] dataForKey:@"data"];
     NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData ? jsonData : [NSData dataWithBytes:nil length:0] options:NSJSONReadingAllowFragments error:nil];
     [Config addEntriesFromDictionary: jsonDict];
-    NSLog(@"%@", Config[@"item1"]);
     if (!Config[@"apps"]) [app saveAppList : cb]; else cb(); // get full apps list (if DNE), save in config.json
 }
 

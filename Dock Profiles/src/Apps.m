@@ -47,20 +47,18 @@
 //    return [NSString stringWithFormat:@"file:///%@/", path];
 //}
 
-NSString* fullPath(NSString* name, NSString* path) {
-    NSString* full = @"";
-    NSImage *image = [[NSWorkspace sharedWorkspace] iconForFile:path];
-    NSLog(@"%@", image);
-    return full;
+NSString* iconPath(NSString* appPath) {
+    //    NSImage *image = [[NSWorkspace sharedWorkspace] iconForFile: appPath];
+    NSString* path = [NSString stringWithFormat:@"%@/%@", appPath, @"Contents/Resources/AppIcon.icns"];
+    return path;
 }
 
 @implementation Apps
 + (NSDictionary*) getAppDict : (NSString*) name : (NSString*) path {
-//    NSLog(@"%@", fullPath(name, path));
     return @{
         @"name": name,
         @"path": path,
-        @"fullPath": fullPath(name, path)
+        @"iconPath": iconPath(path)
     };
 }
 @end
