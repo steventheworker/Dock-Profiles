@@ -45,6 +45,7 @@ void AddEventListeners(void) {
     // permission-free events
     [helperLib listenScreens];
 }
+float r(int multiplier) {return rand() / (float) 2147483647 * (float) multiplier;}
 @implementation app
 // onLaunch
 + (void) init {
@@ -62,6 +63,20 @@ void AddEventListeners(void) {
     [app checkForUpdates];
     loadConfig(^{
         NSLog(@"apps loaded! render UI!");
+        
+        AppDelegate* del = [helperLib getApp];
+
+        NSString* appPath = Config[@"apps"][@"Notes"][@"path"];
+        NSImage *appImage = [[NSWorkspace sharedWorkspace] iconForFile: appPath];
+
+        // setImage of existing (shows house icon on MainMenu.xib) image
+        [del->houseIMG setImage: appImage];
+        
+        // add image to view
+        appImage = [[NSWorkspace sharedWorkspace] iconForFile: Config[@"apps"][@"Firefox"][@"path"]];
+        NSImageView* imageView = [[NSImageView alloc] initWithFrame: CGRectMake(r(300), r(300), 100, 100)];
+        [imageView setImage: appImage];
+        [del->winRef.contentView addSubview: imageView];
     });
 }
 + (void) saveConfig {

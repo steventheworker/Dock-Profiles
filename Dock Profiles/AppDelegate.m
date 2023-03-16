@@ -26,7 +26,7 @@
 
 /* LifeCycle */
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) sender {[[NSApplication sharedApplication] terminate: self];return true;} // NSApplication.shared.terminate(self)
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {[app init];}
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {winRef = _window;[app init];}
 - (void)applicationWillTerminate:(NSNotification *)aNotification {}
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {return YES;}
 @end

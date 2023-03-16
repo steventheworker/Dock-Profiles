@@ -15,6 +15,8 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="houseIMG" destination="JhF-ir-6yH" id="rEM-vX-aKA"/>
+                <outlet property="prefsView" destination="EiT-Mj-1SZ" id="9XT-H1-Ugd"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
