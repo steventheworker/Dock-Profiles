@@ -61,23 +61,34 @@ float r(int multiplier) {return rand() / (float) 2147483647 * (float) multiplier
     //UI variables
     del->appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     [app checkForUpdates];
-    loadConfig(^{
-        NSLog(@"apps loaded! render UI!");
-        
-        AppDelegate* del = [helperLib getApp];
-
-        NSString* appPath = Config[@"apps"][@"Notes"][@"path"];
-        NSImage *appImage = [[NSWorkspace sharedWorkspace] iconForFile: appPath];
-
-        // setImage of existing (shows house icon on MainMenu.xib) image
-        [del->houseIMG setImage: appImage];
-        
-        // add image to view
-        appImage = [[NSWorkspace sharedWorkspace] iconForFile: Config[@"apps"][@"Firefox"][@"path"]];
-        NSImageView* imageView = [[NSImageView alloc] initWithFrame: CGRectMake(r(300), r(300), 100, 100)];
-        [imageView setImage: appImage];
-        [del->winRef.contentView addSubview: imageView];
-    });
+    loadConfig(^{[app initUI];});
+}
++ (void) initUI {
+    [self renderListsView];
+}
++ (void) renderListsView {
+    [app clearSuperview];
+    [app addRunningDockRow];
+}
++ (void) addRunningDockRow {
+    AppDelegate* del = [helperLib getApp];
+    NSView* rowContainer = [[NSView alloc] initWithFrame: CGRectMake(0, 0, 300, 300)];
+    NSArray *appList = [[NSWorkspace sharedWorkspace] runningApplications];
+    for (int i = 0; i < appList.count; i++) {
+        NSRunningApplication *app = appList[i];
+        CGFloat x = 0;
+        CGFloat y = 50 * i;
+        CGFloat w = 50;
+        CGFloat h = 50;
+        NSTextView* textView = [[NSTextView alloc] initWithFrame: CGRectMake(x, y, w, h)];
+        [textView setString: app.localizedName];
+        [rowContainer addSubview: textView];
+    }
+    [del->winRef.contentView addSubview: rowContainer];
+}
++ (void) clearSuperview {
+    AppDelegate* del = [helperLib getApp];
+    [[del->winRef contentView] setSubviews:[NSArray array]];
 }
 + (void) saveConfig {
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:Config options:NSJSONWritingPrettyPrinted error:nil];

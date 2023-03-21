@@ -30,7 +30,6 @@
 
     //UI
     NSWindow* winRef;
-    __weak IBOutlet NSImageView *houseIMG;
 }
 - (void) bindClick: (CGEventRef) e : (CGEventType) type;
 - (void) bindScreens;

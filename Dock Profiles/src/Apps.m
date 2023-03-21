@@ -47,12 +47,7 @@
 //    return [NSString stringWithFormat:@"file:///%@/", path];
 //}
 
-NSString* iconPath(NSString* appPath) {
-    //    NSImage *image = [[NSWorkspace sharedWorkspace] iconForFile: appPath];
-    NSString* path = [NSString stringWithFormat:@"%@/%@", appPath, @"Contents/Resources/AppIcon.icns"];
-    return path;
-}
-
+NSString* iconPath(NSString* appPath) {return [NSString stringWithFormat:@"%@/%@", appPath, @"Contents/Resources/AppIcon.icns"];}
 @implementation Apps
 + (NSDictionary*) getAppDict : (NSString*) name : (NSString*) path {
     return @{
