@@ -73,15 +73,15 @@ float r(int multiplier) {return rand() / (float) 2147483647 * (float) multiplier
 + (void) addRunningDockRow {
     AppDelegate* del = [helperLib getApp];
     NSView* rowContainer = [[NSView alloc] initWithFrame: CGRectMake(0, 0, 300, 300)];
-    NSArray *appList = [[NSWorkspace sharedWorkspace] runningApplications];
+    NSArray *appList = [helperLib dockApps];
     for (int i = 0; i < appList.count; i++) {
-        NSRunningApplication *app = appList[i];
+        NSDictionary* app = appList[i];
         CGFloat x = 0;
         CGFloat y = 50 * i;
         CGFloat w = 50;
         CGFloat h = 50;
         NSTextView* textView = [[NSTextView alloc] initWithFrame: CGRectMake(x, y, w, h)];
-        [textView setString: app.localizedName];
+        [textView setString: app[@"name"]];
         [rowContainer addSubview: textView];
     }
     [del->winRef.contentView addSubview: rowContainer];

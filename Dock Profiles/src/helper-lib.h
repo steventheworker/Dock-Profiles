@@ -37,5 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*) twoSigFigs: (float) val;
 + (BOOL) dockautohide;
 + (NSString*) runScript: (NSString*) scriptTxt;
++ (NSArray*) dockApps;
 @end
 NS_ASSUME_NONNULL_END

@@ -28,6 +28,25 @@ void proc(CGDirectDisplayID display, CGDisplayChangeSummaryFlags flags, void* us
     [[helperLib getApp] bindScreens];
 }
 
+//info needed to add to dock
+NSDictionary* runningAppInfo(NSRunningApplication* app) {
+    NSString *bundlePath = app.bundleURL.path;
+    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:[bundlePath stringByAppendingPathComponent:@"Contents/Info.plist"]];
+    NSString *executableName = infoPlist[@"CFBundleExecutable"]; // === appDict[@"tile-data"][@"file-label"],
+    NSLog(@"%@", executableName); //todo: fix returns "Electron" instead of Visual Studio Code (localizedName)
+    return @{
+        @"name": executableName ? executableName : app.localizedName,
+        @"BID": app.bundleIdentifier
+    };
+}
+NSDictionary* persistentAppInfo(NSDictionary* appDict) {
+    return @{
+        @"name": appDict[@"tile-data"][@"file-label"],
+        @"BID": appDict[@"tile-data"][@"bundle-identifier"]
+    };
+}
+
+
 @implementation helperLib
 //formatting
 + (NSString*) twoSigFigs: (float) val {
@@ -114,6 +133,32 @@ void proc(CGDirectDisplayID display, CGDisplayChangeSummaryFlags flags, void* us
         return cur;
     }
     return nil;
+}
++ (NSArray*) dockApps {return [self dockApps: true];} // by default includes finder
++ (NSArray*) dockApps: (BOOL) includeFinder {
+    NSMutableArray* dockApps = [NSMutableArray new];
+    // iterate persistent-apps directly from dock.plist
+    NSString *dockPrefsPath = [@"~/Library/Preferences/com.apple.dock.plist" stringByExpandingTildeInPath];
+    NSDictionary *dockPrefs = [NSDictionary dictionaryWithContentsOfFile:dockPrefsPath];
+    NSArray *persistentAppsArray = dockPrefs[@"persistent-apps"];
+    for (NSDictionary *appDictionary in persistentAppsArray) [dockApps addObject: [NSMutableDictionary dictionaryWithDictionary: persistentAppInfo(appDictionary)]];
+    //iterate nsrunningapp's
+    NSArray* runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
+    int persistentAppCount = (int) dockApps.count;
+    NSDictionary* finderDict;
+    for (NSRunningApplication* cur in runningApps) {
+        if (!includeFinder && [cur.localizedName isEqual:@"Finder"]) continue; //don't add finder, since it's forced onto the dock
+        if ([cur activationPolicy] != NSApplicationActivationPolicyRegular) continue;
+        //filter out persistent apps that are also running
+        BOOL isPersistentApp = NO;
+        for (int j = 0; j < persistentAppCount; j++) if ([dockApps[j][@"BID"] isEqual: cur.bundleIdentifier]) isPersistentApp = YES;
+        if (!isPersistentApp) {
+            if ([cur.localizedName isEqual:@"Finder"]) finderDict = runningAppInfo(cur);
+            else [dockApps addObject: runningAppInfo(cur)]; //add running apps (ie: what comes after the persistent apps)
+        }
+    }
+    if (includeFinder) [dockApps insertObject: finderDict atIndex:0]; // if includes finder, add to start of list
+    return dockApps;
 }
 
 //windows
