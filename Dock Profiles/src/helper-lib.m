@@ -36,13 +36,25 @@ NSDictionary* runningAppInfo(NSRunningApplication* app) {
     NSLog(@"%@", executableName); //todo: fix returns "Electron" instead of Visual Studio Code (localizedName)
     return @{
         @"name": executableName ? executableName : app.localizedName,
-        @"BID": app.bundleIdentifier
+        @"BID": app.bundleIdentifier,
+        @"tileType": @"runningApp"
     };
 }
-NSDictionary* persistentAppInfo(NSDictionary* appDict) {
+NSDictionary* persistentAppInfo(NSDictionary* persistentDict) {
+    /* enum TileType: String {         ===        { "tile-data": {"file-label": ""}, "tile-type": "spacer-tile" }
+         case spacer = "spacer-tile"
+         case smallSpacer = "small-spacer-tile"
+         case flexSpacer = "flex-spacer-tile"
+         case file = "file-tile"
+         case directory = "directory-tile"
+         case url = "url-tile"
+     } */
+    NSDictionary* spacerTileTypes = @{@"spacer-tile": @1, @"small-spacer-tile": @1, @"flex-spacer-tile": @1};
+    BOOL isSpacer = spacerTileTypes[persistentDict[@"tile-type"]]; // if BID === null && name === ""  =>  spacer
     return @{
-        @"name": appDict[@"tile-data"][@"file-label"],
-        @"BID": appDict[@"tile-data"][@"bundle-identifier"]
+        @"name": (isSpacer ? persistentDict[@"tile-type"] : (persistentDict[@"tile-data"][@"file-label"])),
+        @"BID": (isSpacer ? persistentDict[@"tile-type"] : (persistentDict[@"tile-data"][@"bundle-identifier"])),
+        @"tileType": persistentDict[@"tile-type"]
     };
 }
 
