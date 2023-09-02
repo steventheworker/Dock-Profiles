@@ -89,20 +89,20 @@ float r(int multiplier) {return rand() / (float) 2147483647 * (float) multiplier
 }
 + (void) addDockItemAdder {
     AppDelegate* del = [helperLib getApp];
-    CGFloat w = 50;
-    CGFloat h = 50;
+    CGFloat size = 50;
     NSArray* appKeys = [Config[@"apps"] allKeys];
     int appCount = (int) [appKeys count];
-    NSView* rowContainer = [[NSView alloc] initWithFrame: CGRectMake(0, 0, w * appCount, 300)];
+    NSView* rowContainer = [[NSView alloc] initWithFrame: CGRectMake(0, 0, size * appCount, 300)];
     for (int i = 0; i < appCount; i++) {
         NSString* appName = appKeys[i];
         NSDictionary* app = Config[@"apps"][appName];
         CGFloat x = 50 * i++;
         CGFloat y = 0;
-        NSTextView* textView = [[NSTextView alloc] initWithFrame: CGRectMake(x, y, w, h)];
+        NSImage* img = [[NSWorkspace sharedWorkspace] iconForFile: app[@"path"]];
+        NSImageView* imgView = [[NSImageView alloc] initWithFrame: CGRectMake(x, y, size, size)];
+        [imgView setImage: [helperLib resizedImage: img toPixelDimensions: NSMakeSize(size, size)]];
         NSLog(@"%@", app);
-        [textView setString: app[@"name"]];
-        [rowContainer addSubview: textView];
+        [rowContainer addSubview: imgView];
     }
     NSScrollView* scrollableContainer = [[NSScrollView alloc] initWithFrame: CGRectMake(0, 0, 480, 300)];
     [scrollableContainer setDocumentView:rowContainer];

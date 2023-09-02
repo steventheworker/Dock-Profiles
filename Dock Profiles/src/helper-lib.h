@@ -38,5 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL) dockautohide;
 + (NSString*) runScript: (NSString*) scriptTxt;
 + (NSArray*) dockApps;
++ (NSImage*) resizedImage: (NSImage*)sourceImage toPixelDimensions: (NSSize)newSize;
 @end
 NS_ASSUME_NONNULL_END
