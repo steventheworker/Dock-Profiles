@@ -69,22 +69,45 @@ float r(int multiplier) {return rand() / (float) 2147483647 * (float) multiplier
 + (void) renderListsView {
     [app clearSuperview];
     [app addRunningDockRow];
+    [app addDockItemAdder];
 }
 + (void) addRunningDockRow {
+//    AppDelegate* del = [helperLib getApp];
+//    NSView* rowContainer = [[NSView alloc] initWithFrame: CGRectMake(0, 0, 300, 300)];
+//    NSArray *appList = [helperLib dockApps];
+//    for (int i = 0; i < appList.count; i++) {
+//        NSDictionary* app = appList[i];
+//        CGFloat x = 0;
+//        CGFloat y = 50 * i;
+//        CGFloat w = 50;
+//        CGFloat h = 50;
+//        NSTextView* textView = [[NSTextView alloc] initWithFrame: CGRectMake(x, y, w, h)];
+//        [textView setString: app[@"name"]];
+//        [rowContainer addSubview: textView];
+//    }
+//    [del->winRef.contentView addSubview: rowContainer];
+}
++ (void) addDockItemAdder {
     AppDelegate* del = [helperLib getApp];
-    NSView* rowContainer = [[NSView alloc] initWithFrame: CGRectMake(0, 0, 300, 300)];
-    NSArray *appList = [helperLib dockApps];
-    for (int i = 0; i < appList.count; i++) {
-        NSDictionary* app = appList[i];
-        CGFloat x = 0;
-        CGFloat y = 50 * i;
-        CGFloat w = 50;
-        CGFloat h = 50;
+    CGFloat w = 50;
+    CGFloat h = 50;
+    NSArray* appKeys = [Config[@"apps"] allKeys];
+    int appCount = (int) [appKeys count];
+    NSView* rowContainer = [[NSView alloc] initWithFrame: CGRectMake(0, 0, w * appCount, 300)];
+    for (int i = 0; i < appCount; i++) {
+        NSString* appName = appKeys[i];
+        NSDictionary* app = Config[@"apps"][appName];
+        CGFloat x = 50 * i++;
+        CGFloat y = 0;
         NSTextView* textView = [[NSTextView alloc] initWithFrame: CGRectMake(x, y, w, h)];
+        NSLog(@"%@", app);
         [textView setString: app[@"name"]];
         [rowContainer addSubview: textView];
     }
-    [del->winRef.contentView addSubview: rowContainer];
+    NSScrollView* scrollableContainer = [[NSScrollView alloc] initWithFrame: CGRectMake(0, 0, 480, 300)];
+    [scrollableContainer setDocumentView:rowContainer];
+    [scrollableContainer setHasHorizontalScroller: YES];
+    [del->winRef.contentView addSubview: scrollableContainer];
 }
 + (void) clearSuperview {
     AppDelegate* del = [helperLib getApp];
