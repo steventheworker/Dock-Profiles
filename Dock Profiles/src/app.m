@@ -92,7 +92,7 @@ float r(int multiplier) {return rand() / (float) 2147483647 * (float) multiplier
     CGFloat size = 50;
     NSArray* appKeys = [Config[@"apps"] allKeys];
     int appCount = (int) [appKeys count];
-    NSView* rowContainer = [[NSView alloc] initWithFrame: CGRectMake(0, 0, size * appCount, 300)];
+    NSView* rowContainer = [[NSView alloc] initWithFrame: CGRectMake(0, 0, size * appCount, 285)]; // 300 (scrollableContainer height) - 15 (bottom scrollbar height) = 285px
     for (int i = 0; i < appCount; i++) {
         NSString* appName = appKeys[i];
         NSDictionary* app = Config[@"apps"][appName];
