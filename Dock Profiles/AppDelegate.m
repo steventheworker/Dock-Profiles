@@ -6,27 +6,55 @@
 //
 
 #import "AppDelegate.h"
+#import "src/globals.h"
 #import "src/helper-lib.h"
 #import "src/app.h"
-#import "src/globals.h"
 
+App* app = nil;
+
+/*
+    AppDelate
+*/
 @interface AppDelegate ()
-
 @property (strong) IBOutlet NSWindow *window;
 @end
-
 @implementation AppDelegate
-/* Events */
-- (void) bindScreens {[app calcScreens];}
-- (void) bindClick: (CGEventRef)e : (CGEventType) etype {
-    BOOL rightBtn = (etype == kCGEventRightMouseDown);
-    NSLog(@"%@ click", rightBtn ? @"right" : @"left");
-}
-/* UI */
+/* menu icon "window" actions */
+- (IBAction)openPrefs:(id)sender {[app openPrefs];}
+- (IBAction)quit:(id)sender {[NSApp terminate:nil];}
+- (IBAction)restartAltTab:(id)sender {}
+- (IBAction)killDock:(id)sender {}
 
-/* LifeCycle */
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) sender {[[NSApplication sharedApplication] terminate: self];return true;} // NSApplication.shared.terminate(self)
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {winRef = _window;[app init];}
-- (void)applicationWillTerminate:(NSNotification *)aNotification {}
+/* permissions window actions */
+- (IBAction)restartApp:(id)sender {[helperLib restartApp];}
+- (IBAction)hasAccessibilityBtn:(id)sender {[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"]];}
+- (IBAction)hasInputMonitoringBtn:(id)sender {[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent"]];}
+- (IBAction)hasScreenRecordingBtn:(id)sender {
+    CGRequestScreenCaptureAccess(); // prompt user / add entry to Screen Recording app list
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"]];
+}
+- (IBAction)hasScreenRecordingBtnTooltip:(id)sender {
+    NSHelpManager *helpManager = [NSHelpManager sharedHelpManager];
+    [helpManager setContextHelp:[[NSAttributedString alloc] initWithString:[hasScreenRecordingBtnInfoBtn toolTip]] forObject:hasScreenRecordingBtnInfoBtn];
+    [helpManager showContextHelpForObject:hasScreenRecordingBtnInfoBtn locationHint:[NSEvent mouseLocation]];
+    [helpManager removeContextHelpForObject:hasScreenRecordingBtnInfoBtn];
+}
+
+
+/*
+    Lifecycle
+*/
+- (void) awakeFromNib {/* runs before applicationDidFinishLaunching */}
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {app = [App init: _window : menu];}
+- (void)dealloc {//    [super dealloc]; //todo: why doesn't this work
+//    [timer invalidate];
+//    timer = nil;
+//    if (_systemWideAccessibilityObject) CFRelease(_systemWideAccessibilityObject);
+}
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) sender {return true;} //todo: if in prefs you have menu icon showing, don't quit
+- (void)applicationWillTerminate:(NSNotification *)aNotification {/* Insert code here to tear down your application */}
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {return YES;}
+- (void)setNilValueForKey:(NSString *)key { // nil UI handling
+//    if ([key isEqual:@"dockDelay"]) dockDelayInput.floatValue = dockDelay; // reset text field value on empty (nil)
+}
 @end

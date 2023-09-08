@@ -6,12 +6,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@interface app : NSObject
-+ (void) init;
-+ (void) checkForUpdates;
-+ (void) calcScreens;
-+ (void) saveAppList: (void(^)(void)) cb;
+@interface App : NSObject {
+    NSStatusItem* statusItem;
+    NSWindow* permissionWindow;
+    NSWindowController* prefsController;
+}
++ (instancetype) init: (NSWindow*) window : (NSMenu*) menu;
+- (void) openPrefs;
+- (void) addMenuIcon: (NSMenu*) menu;
+- (void) renderAndShowPermissionWindow;
 @end
 NS_ASSUME_NONNULL_END

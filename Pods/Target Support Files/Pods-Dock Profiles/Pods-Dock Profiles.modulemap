@@ -1,0 +1,6 @@
+framework module Pods_Dock_Profiles {
+  umbrella header "Pods-Dock Profiles-umbrella.h"
+
+  export *
+  module * { export * }
+}
