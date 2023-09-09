@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @interface App : NSObject {
+    @public
     NSStatusItem* statusItem;
     NSWindow* permissionWindow;
     NSWindowController* prefsController;
@@ -18,5 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) openPrefs;
 - (void) addMenuIcon: (NSMenu*) menu;
 - (void) renderAndShowPermissionWindow;
+- (void) toggleMenuIcon;
 @end
 NS_ASSUME_NONNULL_END

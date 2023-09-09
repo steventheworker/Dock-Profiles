@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="NSWindowController">
+        <customObject id="-2" userLabel="File's Owner" customClass="prefsWindowController">
             <connections>
                 <outlet property="window" destination="QvC-M9-y7g" id="Pyv-ta-z1F"/>
             </connections>
@@ -27,6 +27,17 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="NSAdvanced" id="ZQ2-aV-lWe"/>
                     </imageView>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v50-m0-HWy">
+                        <rect key="frame" x="67" y="225" width="109" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Menubar Icon" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="8Eh-4A-rqv">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="checkMenubarIcon:" target="-1" id="kKp-F4-pr5"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="140" y="106"/>

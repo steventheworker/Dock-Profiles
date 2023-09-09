@@ -13,6 +13,8 @@
 		BF5664F12AAADF8B00CE88E9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = BF5664F02AAADF8B00CE88E9 /* README.md */; };
 		BF5664F32AAAE00D00CE88E9 /* prefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF5664F22AAAE00D00CE88E9 /* prefs.xib */; };
 		BF5664F82AABD83F00CE88E9 /* MenuIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BF5664F72AABD83F00CE88E9 /* MenuIcon.png */; };
+		BF5664FC2AABFAA400CE88E9 /* prefs.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5664FB2AABFAA400CE88E9 /* prefs.m */; };
+		BF5664FF2AACFEBA00CE88E9 /* prefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5664FE2AACFEBA00CE88E9 /* prefsWindowController.m */; };
 		BFB2A4C828FBA33B008170CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4C728FBA33B008170CC /* AppDelegate.m */; };
 		BFB2A4CD28FBA33C008170CC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFB2A4CB28FBA33C008170CC /* MainMenu.xib */; };
 		BFB2A4CF28FBA33C008170CC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4CE28FBA33C008170CC /* main.m */; };
@@ -31,6 +33,10 @@
 		BF5664F22AAAE00D00CE88E9 /* prefs.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = prefs.xib; sourceTree = "<group>"; };
 		BF5664F72AABD83F00CE88E9 /* MenuIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MenuIcon.png; sourceTree = "<group>"; };
 		BF5664F92AABE62800CE88E9 /* Dock-Profiles-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Dock-Profiles-Info.plist"; sourceTree = SOURCE_ROOT; };
+		BF5664FA2AABFAA400CE88E9 /* prefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = prefs.h; sourceTree = "<group>"; };
+		BF5664FB2AABFAA400CE88E9 /* prefs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = prefs.m; sourceTree = "<group>"; };
+		BF5664FD2AACFEBA00CE88E9 /* prefsWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = prefsWindowController.h; sourceTree = "<group>"; };
+		BF5664FE2AACFEBA00CE88E9 /* prefsWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = prefsWindowController.m; sourceTree = "<group>"; };
 		BFB2A4C328FBA33B008170CC /* Dock Profiles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dock Profiles.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFB2A4C628FBA33B008170CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BFB2A4C728FBA33B008170CC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -125,6 +131,10 @@
 				BF53A9452905204C003BAF27 /* globals.m */,
 				BFB2A4E528FF9038008170CC /* helper-lib.h */,
 				BFB2A4E628FF9038008170CC /* helper-lib.m */,
+				BF5664FA2AABFAA400CE88E9 /* prefs.h */,
+				BF5664FB2AABFAA400CE88E9 /* prefs.m */,
+				BF5664FD2AACFEBA00CE88E9 /* prefsWindowController.h */,
+				BF5664FE2AACFEBA00CE88E9 /* prefsWindowController.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -252,6 +262,8 @@
 				BFB2A4EB28FF9058008170CC /* app.m in Sources */,
 				BFB2A4E728FF9038008170CC /* helper-lib.m in Sources */,
 				BFB2A4C828FBA33B008170CC /* AppDelegate.m in Sources */,
+				BF5664FF2AACFEBA00CE88E9 /* prefsWindowController.m in Sources */,
+				BF5664FC2AABFAA400CE88E9 /* prefs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,7 +405,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Dock-Profiles-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -423,7 +434,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Dock-Profiles-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;

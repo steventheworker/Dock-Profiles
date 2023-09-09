@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 #import "src/globals.h"
 #import "src/helper-lib.h"
+#import "src/prefs.h"
 #import "src/app.h"
 
 App* app = nil;
@@ -40,6 +41,9 @@ App* app = nil;
     [helpManager removeContextHelpForObject:hasScreenRecordingBtnInfoBtn];
 }
 
+/* prefsWindow actions */
+- (IBAction)checkMenubarIcon:(id)sender {[prefs checkMenubarIcon: sender : app];}
+
 
 /*
     Lifecycle
@@ -51,7 +55,7 @@ App* app = nil;
 //    timer = nil;
 //    if (_systemWideAccessibilityObject) CFRelease(_systemWideAccessibilityObject);
 }
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) sender {return true;} //todo: if in prefs you have menu icon showing, don't quit
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) sender {return [[prefs load][@"showMenubarIcon"] boolValue] ? false : true;} // if menubar-less, then quit app after last window closes
 - (void)applicationWillTerminate:(NSNotification *)aNotification {/* Insert code here to tear down your application */}
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {return YES;}
 - (void)setNilValueForKey:(NSString *)key { // nil UI handling

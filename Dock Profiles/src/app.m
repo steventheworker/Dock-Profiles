@@ -8,6 +8,8 @@
 #import "app.h"
 #import "helper-lib.h"
 #import "globals.h"
+#import "prefs.h"
+#import "prefsWindowController.h"
 
 @implementation App
 + (instancetype) init: (NSWindow*) window : (NSMenu*) menu {
@@ -24,7 +26,7 @@
     [app addMenuIcon: menu]; // adds menu icon / references
     
     //load nib/xib prefsWindow
-    app->prefsController = [[NSWindowController alloc] initWithWindowNibName:@"prefs"];
+    app->prefsController = [[prefsWindowController alloc] initWithWindowNibName:@"prefs"];
     [app->prefsController loadWindow];
     
     [app startListening];
@@ -36,14 +38,17 @@
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength: NSSquareStatusItemLength];
     [[statusItem button] setImage: [NSImage imageNamed: @"MenuIcon"]];
     [statusItem setMenu: menu];
-    [statusItem setVisible: YES]; //without this, could stay hidden away
+    [statusItem setVisible: [[prefs load][@"showMenubarIcon"] boolValue]];
 }
+- (void) toggleMenuIcon {[statusItem setVisible: ![[prefs load][@"showMenubarIcon"] boolValue]];}
 
 
 /* event listening */
 - (void) startListening {
     // on app became active (open prefs window)
+    [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyAccessory]; //prevent initial appBecameActive (triggered on launch if app non-agent (dock app))
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(appBecameActive:) name: NSApplicationDidBecomeActiveNotification object: nil];
+    setTimeout(^{[[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyRegular];}, 0); //re-add dock icon
 }
 - (void) appBecameActive: (NSNotification*) notification {
     // don't raise prefs if sparkle updater visible (may open on launch (and triggers appBecameActive unintentionally))
@@ -82,7 +87,9 @@
 }
 - (void) openPrefs {
     [[prefsController window] setIsVisible: YES];
-    //    [prefsController showWindow: [prefsController window]];
+//    [prefsController showWindow: [prefsController window]];
     [helperLib activateWindow: [prefsController window]];
+    [prefs render: [prefsController window]];
+    [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyRegular]; //make dock icon visible
 }
 @end
