@@ -17,21 +17,6 @@
 
 @implementation profileEditorWindowController
 /* ui */
-- (void) addRunningDockRow {
-    NSView* rowContainer = [[NSView alloc] initWithFrame: CGRectMake(0, 0, 300, 300)];
-    NSArray *appList = [helperLib dockApps];
-    for (int i = 0; i < appList.count; i++) {
-        NSDictionary* app = appList[i];
-        CGFloat x = 0;
-        CGFloat y = 50 * i;
-        CGFloat w = 50;
-        CGFloat h = 50;
-        NSTextView* textView = [[NSTextView alloc] initWithFrame: CGRectMake(x, y, w, h)];
-        [textView setString: app[@"name"]];
-        [rowContainer addSubview: textView];
-    }
-    [self.window.contentView addSubview: rowContainer];
-}
 - (void) addDockItemAdder {
     CGFloat size = 50;
     NSArray* appKeys = [[Apps apps] allKeys];
@@ -55,7 +40,6 @@
 }
 - (void) addUI {
     [self addDockItemAdder];
-    [self addRunningDockRow];
 }
 - (void) resizeUI {
     NSRect f = self.window.frame;
