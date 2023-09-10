@@ -56,7 +56,10 @@ void AddAppToConfig(NSString* name, NSString* path) {
     Config[@"apps"][name] = [Apps getAppDict: name : path];
 }
 void saveToPrefs(void) {
-    
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject: Config options: NSJSONWritingPrettyPrinted error: nil];
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject: jsonData forKey: @"data"];
+    [userDefaults synchronize];
 }
 
 NSString* iconPath(NSString* appPath) {return [NSString stringWithFormat:@"%@/%@", appPath, @"Contents/Resources/AppIcon.icns"];}
