@@ -763,14 +763,8 @@
             </view>
             <point key="canvasLocation" x="140" y="-118"/>
         </window>
-        <menu id="JBO-vp-NXO">
+        <menu userInterfaceLayoutDirection="leftToRight" id="JBO-vp-NXO">
             <items>
-                <menuItem title="Open Editor" id="KhJ-19-d4r">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="openEditor:" target="O8a-yd-nmn" id="RAX-NZ-Bbm"/>
-                    </connections>
-                </menuItem>
                 <menuItem title="Set Profile" id="XLL-zh-apU">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Set Profile" userInterfaceLayoutDirection="leftToRight" id="UQC-pj-7tL">
@@ -781,8 +775,12 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="Preferences" id="4XI-cX-BF5">
-                    <modifierMask key="keyEquivalentModifierMask"/>
+                <menuItem title="Open Editor Window" id="KhJ-19-d4r">
+                    <connections>
+                        <action selector="openEditor:" target="O8a-yd-nmn" id="RAX-NZ-Bbm"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Preferences" keyEquivalent="," id="4XI-cX-BF5">
                     <connections>
                         <action selector="openPrefs:" target="O8a-yd-nmn" id="mZt-e5-g4d"/>
                     </connections>
@@ -797,14 +795,13 @@
                         </binding>
                     </connections>
                 </menuItem>
-                <menuItem title="Quit Dock Profiles" id="yMd-Nu-4Y0">
-                    <modifierMask key="keyEquivalentModifierMask"/>
+                <menuItem title="Quit Dock Profiles" keyEquivalent="q" id="yMd-Nu-4Y0">
                     <connections>
                         <action selector="quit:" target="-1" id="bUF-Fe-4b9"/>
                     </connections>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="-220" y="67"/>
+            <point key="canvasLocation" x="-275" y="36"/>
         </menu>
         <customObject id="pIL-RE-lkR" customClass="SPUStandardUpdaterController"/>
         <userDefaultsController representsSharedInstance="YES" id="AiQ-vB-MjM"/>
