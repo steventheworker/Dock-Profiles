@@ -6,7 +6,7 @@
 //
 
 #import "Apps.h"
-
+#import "prefs.h"
 #import "helper-lib.h"
 
 //NSImage *image = [[NSWorkspace sharedWorkspace] iconForFile:path];
@@ -47,6 +47,18 @@
 //    return [NSString stringWithFormat:@"file:///%@/", path];
 //}
 
+NSDictionary* const DefaultConfig = @{
+    @"item1": @4
+};
+NSMutableDictionary* Config = nil; // uses the "data" NSUserDefault to hold json for the whole config
+void AddAppToConfig(NSString* name, NSString* path) {
+    if (!Config[@"apps"]) Config[@"apps"] = [NSMutableDictionary new]; // [Config insertValue:[] inPropertyWithKey:@"apps"];
+    Config[@"apps"][name] = [Apps getAppDict: name : path];
+}
+void saveToPrefs(void) {
+    
+}
+
 NSString* iconPath(NSString* appPath) {return [NSString stringWithFormat:@"%@/%@", appPath, @"Contents/Resources/AppIcon.icns"];}
 @implementation Apps
 + (NSDictionary*) getAppDict : (NSString*) name : (NSString*) path {
@@ -55,5 +67,46 @@ NSString* iconPath(NSString* appPath) {return [NSString stringWithFormat:@"%@/%@
         @"path": path,
         @"iconPath": iconPath(path)
     };
+}
++ (void)loadConfig:(void (^)(void))cb {
+    Config = [NSMutableDictionary dictionaryWithDictionary: DefaultConfig];
+    NSData* jsonData = [[NSUserDefaults standardUserDefaults] dataForKey:@"data"];
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData ? jsonData : [NSData dataWithBytes:nil length:0] options:NSJSONReadingAllowFragments error:nil];
+    [Config addEntriesFromDictionary: jsonDict];
+    if (!Config[@"apps"]) [Apps saveAppList : cb]; else cb(); // get full apps list (if DNE), save in config.json
+}
++ (void) saveAppList : (void(^)(void)) cb {
+    void (^processShellOutput)(NSString* data) = ^(NSString* data) {
+        NSXMLDocument* xml = [[NSXMLDocument document] initWithXMLString:data options:0 error:nil];
+        NSXMLNode *el = [[[[xml childAtIndex:0] childAtIndex:0] childAtIndex:0] childAtIndex:11];
+        for (NSXMLNode* _el in [el children]) {
+//                        if ([_el childCount] >= 11 && [[[_el childAtIndex:10] stringValue] isEqual:@"path"])
+//                        if ( [[[_el childAtIndex:8] stringValue] isEqual:@"path"])
+            NSString* appName;
+            NSString* path;
+            for (int i = 0; i < [_el childCount] / 2; i++) {
+                NSXMLNode* label = [_el childAtIndex: i * 2];
+                NSXMLNode* val = [_el childAtIndex: i * 2 + 1];
+                if ([[label stringValue] isEqual:@"_name"]) appName = [val stringValue];
+                if ([[label stringValue] isEqual:@"path"]) path = [val stringValue];
+            }
+            AddAppToConfig(appName, path);
+        }
+        saveToPrefs();
+        cb();
+    };
+    NSTask *task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/usr/sbin/system_profiler"]; // system_profiler -detailLevel full SPApplicationsDataType
+    [task setArguments:[NSArray arrayWithObjects:@"-detailLevel", @"full", @"SPApplicationsDataType", @"-xml", nil]];
+    NSPipe *outputPipe = [NSPipe pipe];
+    [task setStandardOutput:outputPipe];
+    //wait until ReadToEndOfFile finished
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleReadToEndOfFileCompletionNotification object:[outputPipe fileHandleForReading] queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadToEndOfFileCompletionNotification object:[notification object]];
+        NSData* data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+        processShellOutput([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    }];
+    [[outputPipe fileHandleForReading] readToEndOfFileInBackgroundAndNotify];
+    [task launch];
 }
 @end

@@ -7,6 +7,8 @@
 
 #import "profileEditorWindowController.h"
 #import "globals.h"
+#import "app.h"
+#import "Apps.h"
 
 @interface profileEditorWindowController ()
 
@@ -19,6 +21,12 @@
         selector: @selector(windowDidClose:)
         name: NSWindowWillCloseNotification
         object: [self window]];
+    profileEditorWindowController* selfRef = self;
+    [Apps loadConfig: ^{
+        [[[selfRef window] contentView] setSubviews: @[]];
+        [selfRef addUI];
+        [selfRef resizeUI];
+    }];
 }
 - (void) windowDidClose: (NSNotification*) notification {
     setTimeout(^{ //window still visible, call at end of stack to let close take effect
@@ -30,9 +38,12 @@
         if (!visibleWindows) [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyAccessory]; //remove dock icon
     }, 0);
 }
-- (void)windowDidResize: (NSNotification*) notification {
-    NSRect f = self.window.frame;
+- (void) windowDidResize: (NSNotification*) notification {[self resizeUI];}
+- (void) addUI {
     
 }
+- (void) resizeUI {
+    NSRect f = self.window.frame;
 
+}
 @end
