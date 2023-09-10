@@ -15,11 +15,11 @@
 
 @implementation prefsWindowController
 - (void)awakeFromNib {
-    [[NSNotificationCenter defaultCenter]     // on window closed
-        addObserver:self
-        selector:@selector(windowDidClose:)
-        name:NSWindowWillCloseNotification
-        object:[self window]];
+    [[NSNotificationCenter defaultCenter] // on window closed
+        addObserver: self
+        selector: @selector(windowDidClose:)
+        name: NSWindowWillCloseNotification
+        object: [self window]];
 }
 - (void) windowDidClose:(NSNotification *)notification {
     setTimeout(^{ //window still visible, call at end of stack to let close take effect

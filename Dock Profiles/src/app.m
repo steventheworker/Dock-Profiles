@@ -31,7 +31,6 @@
     [app->prefsController loadWindow];
     app->editorController = [[profileEditorWindowController alloc] initWithWindowNibName: @"profileEditor"];
     [app->editorController loadWindow];
-    [helperLib activateWindow: [app->editorController window]];
     
     [app startListening];
     
@@ -51,16 +50,14 @@
 - (void) startListening {
     // on appBecameActive
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(appBecameActive:) name: NSApplicationDidBecomeActiveNotification object: nil];
-    //give app its dock icon now (so appBecameActive doesn't run immediately)
-    [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyRegular];
+    [self openEditor]; //give app its dock icon now (so appBecameActive doesn't run immediately)
 }
 - (void) appBecameActive: (NSNotification*) notification {
-    // don't raise prefs if sparkle updater visible (may open on launch (and triggers appBecameActive unintentionally))
-    NSArray* windows = [[NSApplication sharedApplication] windows];  // window titles: "DockAltTab needs some permissions", "Item-0" (menubar "window" title), "DockAltTab - preferences", "" (Sparkle update window)
-    NSString* appTitle = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-    for (NSWindow* cur in windows) if (cur.isVisible) if ([[cur title] isEqual: @""] || [[cur title] isEqual: @"Software Update"] || [[cur title] isEqual: [@"Updating %@" stringByAppendingString: appTitle]]) return;
+    NSArray* windows = [[NSApplication sharedApplication] windows];
+    // don't raise mainWindow if app already has a visible app (ignore menubar icon)
+    for (NSWindow* cur in windows) if (cur.isVisible) {if (cur.level == NSStatusWindowLevel) continue; else return;}
         
-    // raise prefs window
+    // raise main window
     [self openEditor];
 }
 
@@ -90,14 +87,11 @@
     }
 }
 - (void) openEditor {
-//    [[editorController window] setIsVisible: YES];
     [helperLib activateWindow: [editorController window]];
     [prefs render: [editorController window]];
     [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyRegular]; //make dock icon visible
 }
 - (void) openPrefs {
-    [[prefsController window] setIsVisible: YES];
-//    [prefsController showWindow: [prefsController window]];
     [helperLib activateWindow: [prefsController window]];
     [prefs render: [prefsController window]];
     [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyRegular]; //make dock icon visible
