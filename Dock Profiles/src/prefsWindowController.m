@@ -21,7 +21,7 @@
         name: NSWindowWillCloseNotification
         object: [self window]];
 }
-- (void) windowDidClose:(NSNotification *)notification {
+- (void) windowDidClose: (NSNotification*) notification {
     setTimeout(^{ //window still visible, call at end of stack to let close take effect
         int visibleWindows = 0;
         for (NSWindow* win in [[NSApplication sharedApplication] windows]) {

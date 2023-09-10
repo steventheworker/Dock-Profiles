@@ -20,7 +20,7 @@
         name: NSWindowWillCloseNotification
         object: [self window]];
 }
-- (void) windowDidClose:(NSNotification *)notification {
+- (void) windowDidClose: (NSNotification*) notification {
     setTimeout(^{ //window still visible, call at end of stack to let close take effect
         int visibleWindows = 0;
         for (NSWindow* win in [[NSApplication sharedApplication] windows]) {
@@ -30,4 +30,9 @@
         if (!visibleWindows) [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyAccessory]; //remove dock icon
     }, 0);
 }
+- (void)windowDidResize: (NSNotification*) notification {
+    NSRect f = self.window.frame;
+    
+}
+
 @end
