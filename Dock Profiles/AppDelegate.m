@@ -21,6 +21,7 @@ App* app = nil;
 @end
 @implementation AppDelegate
 /* menu icon "window" actions */
+- (IBAction)openEditor:(id)sender {[app openEditor];}
 - (IBAction)openPrefs:(id)sender {[app openPrefs];}
 - (IBAction)quit:(id)sender {[NSApp terminate:nil];}
 - (IBAction)restartAltTab:(id)sender {}

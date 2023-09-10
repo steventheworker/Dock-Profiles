@@ -761,6 +761,12 @@
         </window>
         <menu id="JBO-vp-NXO">
             <items>
+                <menuItem title="Open Editor" id="KhJ-19-d4r">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="openEditor:" target="O8a-yd-nmn" id="RAX-NZ-Bbm"/>
+                    </connections>
+                </menuItem>
                 <menuItem title="Preferences" id="4XI-cX-BF5">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
