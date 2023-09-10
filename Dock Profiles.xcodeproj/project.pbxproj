@@ -15,6 +15,8 @@
 		BF5664F82AABD83F00CE88E9 /* MenuIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BF5664F72AABD83F00CE88E9 /* MenuIcon.png */; };
 		BF5664FC2AABFAA400CE88E9 /* prefs.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5664FB2AABFAA400CE88E9 /* prefs.m */; };
 		BF5664FF2AACFEBA00CE88E9 /* prefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5664FE2AACFEBA00CE88E9 /* prefsWindowController.m */; };
+		BF580EAF2AAD91B600BA9831 /* profileEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF580EAD2AAD91B600BA9831 /* profileEditorWindowController.m */; };
+		BF580EB02AAD91B600BA9831 /* profileEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF580EAE2AAD91B600BA9831 /* profileEditor.xib */; };
 		BFB2A4C828FBA33B008170CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4C728FBA33B008170CC /* AppDelegate.m */; };
 		BFB2A4CD28FBA33C008170CC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFB2A4CB28FBA33C008170CC /* MainMenu.xib */; };
 		BFB2A4CF28FBA33C008170CC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB2A4CE28FBA33C008170CC /* main.m */; };
@@ -37,6 +39,9 @@
 		BF5664FB2AABFAA400CE88E9 /* prefs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = prefs.m; sourceTree = "<group>"; };
 		BF5664FD2AACFEBA00CE88E9 /* prefsWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = prefsWindowController.h; sourceTree = "<group>"; };
 		BF5664FE2AACFEBA00CE88E9 /* prefsWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = prefsWindowController.m; sourceTree = "<group>"; };
+		BF580EAC2AAD91B600BA9831 /* profileEditorWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = profileEditorWindowController.h; sourceTree = "<group>"; };
+		BF580EAD2AAD91B600BA9831 /* profileEditorWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = profileEditorWindowController.m; sourceTree = "<group>"; };
+		BF580EAE2AAD91B600BA9831 /* profileEditor.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = profileEditor.xib; sourceTree = "<group>"; };
 		BFB2A4C328FBA33B008170CC /* Dock Profiles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dock Profiles.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFB2A4C628FBA33B008170CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BFB2A4C728FBA33B008170CC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -112,6 +117,7 @@
 				BFB2A4CE28FBA33C008170CC /* main.m */,
 				BFB2A4CB28FBA33C008170CC /* MainMenu.xib */,
 				BF5664F22AAAE00D00CE88E9 /* prefs.xib */,
+				BF580EAE2AAD91B600BA9831 /* profileEditor.xib */,
 				BF5664F92AABE62800CE88E9 /* Dock-Profiles-Info.plist */,
 				BFB2A4D928FCE894008170CC /* Assets.xcassets */,
 				BF5664F72AABD83F00CE88E9 /* MenuIcon.png */,
@@ -135,6 +141,8 @@
 				BF5664FB2AABFAA400CE88E9 /* prefs.m */,
 				BF5664FD2AACFEBA00CE88E9 /* prefsWindowController.h */,
 				BF5664FE2AACFEBA00CE88E9 /* prefsWindowController.m */,
+				BF580EAC2AAD91B600BA9831 /* profileEditorWindowController.h */,
+				BF580EAD2AAD91B600BA9831 /* profileEditorWindowController.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -199,6 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF5664F32AAAE00D00CE88E9 /* prefs.xib in Resources */,
+				BF580EB02AAD91B600BA9831 /* profileEditor.xib in Resources */,
 				BF5664EF2AAADF6200CE88E9 /* Podfile in Resources */,
 				BFB2A4DA28FCE894008170CC /* Assets.xcassets in Resources */,
 				BF5664F82AABD83F00CE88E9 /* MenuIcon.png in Resources */,
@@ -257,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFB2A4CF28FBA33C008170CC /* main.m in Sources */,
+				BF580EAF2AAD91B600BA9831 /* profileEditorWindowController.m in Sources */,
 				BFD910942905788C00A7AD7A /* Apps.m in Sources */,
 				BF53A9462905204C003BAF27 /* globals.m in Sources */,
 				BFB2A4EB28FF9058008170CC /* app.m in Sources */,

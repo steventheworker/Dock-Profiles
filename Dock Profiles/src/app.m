@@ -10,6 +10,7 @@
 #import "globals.h"
 #import "prefs.h"
 #import "prefsWindowController.h"
+#import "profileEditorWindowController.h"
 
 @implementation App
 + (instancetype) init: (NSWindow*) window : (NSMenu*) menu {
@@ -25,9 +26,12 @@
     
     [app addMenuIcon: menu]; // adds menu icon / references
     
-    //load nib/xib prefsWindow
+    //load nib/xib
     app->prefsController = [[prefsWindowController alloc] initWithWindowNibName:@"prefs"];
     [app->prefsController loadWindow];
+    app->editorController = [[profileEditorWindowController alloc] initWithWindowNibName: @"profileEditor"];
+    [app->editorController loadWindow];
+    [helperLib activateWindow: [app->editorController window]];
     
     [app startListening];
     
@@ -57,7 +61,7 @@
     for (NSWindow* cur in windows) if (cur.isVisible) if ([[cur title] isEqual: @""] || [[cur title] isEqual: @"Software Update"] || [[cur title] isEqual: [@"Updating %@" stringByAppendingString: appTitle]]) return;
         
     // raise prefs window
-    [self openPrefs];
+    [self openEditor];
 }
 
 
@@ -84,6 +88,12 @@
             if ([button.title isEqual: @"Screen Recording"] && CGPreflightScreenCaptureAccess()) [button setBezelColor: [NSColor systemGreenColor]];
         }
     }
+}
+- (void) openEditor {
+//    [[editorController window] setIsVisible: YES];
+    [helperLib activateWindow: [editorController window]];
+    [prefs render: [editorController window]];
+    [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyRegular]; //make dock icon visible
 }
 - (void) openPrefs {
     [[prefsController window] setIsVisible: YES];

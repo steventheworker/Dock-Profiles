@@ -14,9 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
     NSStatusItem* statusItem;
     NSWindow* permissionWindow;
     NSWindowController* prefsController;
+    NSWindowController* editorController;
 }
 + (instancetype) init: (NSWindow*) window : (NSMenu*) menu;
 - (void) openPrefs;
+- (void) openEditor;
 - (void) addMenuIcon: (NSMenu*) menu;
 - (void) renderAndShowPermissionWindow;
 - (void) toggleMenuIcon;
