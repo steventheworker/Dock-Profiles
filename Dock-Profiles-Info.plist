@@ -4,5 +4,7 @@
 <dict>
 	<key>SUPublicEDKey</key>
 	<string>T0wESSsYLzTXlEoMASqu3mYVMrqyFur1ao3gfkebqAw=</string>
+	<key>LSUIElement</key>
+	<true/>
 </dict>
 </plist>

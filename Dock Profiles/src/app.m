@@ -45,10 +45,10 @@
 
 /* event listening */
 - (void) startListening {
-    // on app became active (open prefs window)
-    [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyAccessory]; //prevent initial appBecameActive (triggered on launch if app non-agent (dock app))
+    // on appBecameActive
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(appBecameActive:) name: NSApplicationDidBecomeActiveNotification object: nil];
-    setTimeout(^{[[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyRegular];}, 0); //re-add dock icon
+    //give app its dock icon now (so appBecameActive doesn't run immediately)
+    [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyRegular];
 }
 - (void) appBecameActive: (NSNotification*) notification {
     // don't raise prefs if sparkle updater visible (may open on launch (and triggers appBecameActive unintentionally))
