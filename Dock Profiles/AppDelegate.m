@@ -20,6 +20,9 @@ App* app = nil;
 @property (strong) IBOutlet NSWindow *window;
 @end
 @implementation AppDelegate
+/* menubar menu (File->Help) actions */
+
+
 /* menu icon "window" actions */
 - (IBAction)openEditor:(id)sender {[app openEditor];}
 - (IBAction)openPrefs:(id)sender {[app openPrefs];}
