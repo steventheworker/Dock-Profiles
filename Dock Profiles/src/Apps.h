@@ -10,9 +10,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Apps : NSObject
-+ (NSDictionary*) getAppDict : (NSString*) name : (NSString*) path;
-+ (void) loadConfig:(void (^)(void))cb;
-+ (void) saveAppList : (void(^)(void)) cb;
++ (void) loadConfig: (void (^)(void))cb;
++ (void) saveAppList: (void(^)(void)) cb;
+
++ (NSDictionary*) apps;
++ (NSDictionary*) getApp: (NSString*) appName;
 @end
 
 NS_ASSUME_NONNULL_END

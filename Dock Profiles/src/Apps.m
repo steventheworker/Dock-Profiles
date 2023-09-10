@@ -48,12 +48,21 @@
 //}
 
 NSDictionary* const DefaultConfig = @{
-    @"item1": @4
+    @"scannedApps": @{}, //apps retrieved via systemprofiler
+    @"manuallyAddedApps": @{}, //
+    @"apps": @{}, //app library
+    @"profiles": @{}
 };
 NSMutableDictionary* Config = nil; // uses the "data" NSUserDefault to hold json for the whole config
+
+NSString* iconPath(NSString* appPath) {return [NSString stringWithFormat:@"%@/%@", appPath, @"Contents/Resources/AppIcon.icns"];}
 void AddAppToConfig(NSString* name, NSString* path) {
-    if (!Config[@"apps"]) Config[@"apps"] = [NSMutableDictionary new]; // [Config insertValue:[] inPropertyWithKey:@"apps"];
-    Config[@"apps"][name] = [Apps getAppDict: name : path];
+    if (![[Config[@"apps"] allKeys] count]) Config[@"apps"] = [NSMutableDictionary new]; // [Config insertValue:[] inPropertyWithKey:@"apps"];
+    Config[@"apps"][name] = @{
+        @"name": name,
+        @"path": path,
+        @"iconPath": iconPath(path)
+    };
 }
 void saveToPrefs(void) {
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject: Config options: NSJSONWritingPrettyPrinted error: nil];
@@ -62,21 +71,15 @@ void saveToPrefs(void) {
     [userDefaults synchronize];
 }
 
-NSString* iconPath(NSString* appPath) {return [NSString stringWithFormat:@"%@/%@", appPath, @"Contents/Resources/AppIcon.icns"];}
 @implementation Apps
-+ (NSDictionary*) getAppDict : (NSString*) name : (NSString*) path {
-    return @{
-        @"name": name,
-        @"path": path,
-        @"iconPath": iconPath(path)
-    };
-}
++ (NSDictionary*) apps {return Config[@"apps"];}
++ (NSDictionary*) getApp: (NSString*) appName {return Config[@"apps"][appName];}
 + (void)loadConfig:(void (^)(void))cb {
     Config = [NSMutableDictionary dictionaryWithDictionary: DefaultConfig];
     NSData* jsonData = [[NSUserDefaults standardUserDefaults] dataForKey:@"data"];
     NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData ? jsonData : [NSData dataWithBytes:nil length:0] options:NSJSONReadingAllowFragments error:nil];
     [Config addEntriesFromDictionary: jsonDict];
-    if (!Config[@"apps"]) [Apps saveAppList : cb]; else cb(); // get full apps list (if DNE), save in config.json
+    if (![[Config[@"apps"] allKeys] count]) [Apps saveAppList : cb]; else cb(); // get full apps list (if DNE), save in config.json
 }
 + (void) saveAppList : (void(^)(void)) cb {
     void (^processShellOutput)(NSString* data) = ^(NSString* data) {

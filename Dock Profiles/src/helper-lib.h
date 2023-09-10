@@ -10,7 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @interface helperLib : NSObject {}
++ (NSArray*) dockApps;
++ (NSArray*) dockApps: (BOOL) includeFinder;
+
+//misc
 + (void) activateWindow: (NSWindow*) window;
++ (NSImage*) resizedImage: (NSImage*) sourceImage toPixelDimensions: (NSSize) newSize;
 + (void) restartApp;
 @end
 NS_ASSUME_NONNULL_END
