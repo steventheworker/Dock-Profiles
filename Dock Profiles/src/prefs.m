@@ -7,11 +7,17 @@
 
 #import "prefs.h"
 
+//grab pref & use default value if unset
+BOOL getBoolPref(NSString* key, BOOL defaultVal) {id val = [[NSUserDefaults standardUserDefaults] valueForKey: key];return (val == nil) ? defaultVal : [val boolValue];}
+BOOL getStringPref(NSString* key, NSString* defaultVal) {id val = [[NSUserDefaults standardUserDefaults] valueForKey: key];return (val == nil) ? defaultVal : [val stringValue];}
+BOOL getIntegerPref(NSString* key, int defaultVal) {id val = [[NSUserDefaults standardUserDefaults] valueForKey: key];return (val == nil) ? defaultVal : [val integerValue];}
+BOOL getDoublePref(NSString* key, double defaultVal) {id val = [[NSUserDefaults standardUserDefaults] valueForKey: key];return (val == nil) ? defaultVal : [val doubleValue];}
+BOOL getFloatPref(NSString* key, float defaultVal) {id val = [[NSUserDefaults standardUserDefaults] valueForKey: key];return (val == nil) ? defaultVal : [val floatValue];}
+
 @implementation prefs
 + (NSDictionary*) load {
     NSMutableDictionary* ret = [NSMutableDictionary dictionary];
-    ret[@"showMenubarIcon"] = @([[NSUserDefaults standardUserDefaults] boolForKey: @"showMenubarIcon"]);
-
+    ret[@"showMenubarIcon"] = @(getBoolPref(@"showMenubarIcon", YES));
     return ret;
 }
 + (void) checkMenubarIcon: (id) sender : (App*) app {
