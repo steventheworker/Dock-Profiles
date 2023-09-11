@@ -54,11 +54,11 @@
         name: NSWindowWillCloseNotification
         object: [self window]];
     profileEditorWindowController* selfRef = self;
-    [Apps loadConfig: ^{
+    [Apps loadConfig: ^{setTimeout(^{
         [[[selfRef window] contentView] setSubviews: @[]];
         [selfRef addUI];
         [selfRef resizeUI];
-    }];
+    }, 70);}];
 }
 - (void) windowDidClose: (NSNotification*) notification {
     setTimeout(^{ //window still visible, call at end of stack to let close take effect
