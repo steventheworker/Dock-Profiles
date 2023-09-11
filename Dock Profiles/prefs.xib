@@ -37,10 +37,41 @@
                             <action selector="checkMenubarIcon:" target="-1" id="kKp-F4-pr5"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aAn-UH-FlM">
+                        <rect key="frame" x="8" y="182" width="106" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Export Data" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="m4h-B7-nuq">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="-2" name="target" keyPath="self" id="os4-df-EUK">
+                                <dictionary key="options">
+                                    <string key="NSSelectorName">exportData</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4RM-Dd-Dap">
+                        <rect key="frame" x="8" y="150" width="106" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Import Data" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4TX-ym-X5Z">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="-2" name="target" keyPath="self" id="ufX-Sf-N1h">
+                                <dictionary key="options">
+                                    <string key="NSSelectorName">importData</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="140" y="106"/>
         </window>
+        <userDefaultsController representsSharedInstance="YES" id="7iq-bt-oU4"/>
     </objects>
     <resources>
         <image name="NSAdvanced" width="32" height="32"/>

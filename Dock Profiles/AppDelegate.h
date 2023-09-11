@@ -6,11 +6,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "src/app.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     __weak IBOutlet NSMenu *menu;
-    
     __weak IBOutlet NSButton *hasScreenRecordingBtnInfoBtn;
+    
+    @public
+    App* app;
 }
 
 @end

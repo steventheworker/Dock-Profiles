@@ -56,7 +56,7 @@
     NSArray* windows = [[NSApplication sharedApplication] windows];
     // don't raise mainWindow if app already has a visible app (ignore menubar icon)
     for (NSWindow* cur in windows) if (cur.isVisible) {if (cur.level == NSStatusWindowLevel) continue; else return;}
-        
+    
     // raise main window
     [self openEditor];
 }
@@ -64,11 +64,11 @@
 
 
 - (BOOL) hasRequiredPermissions { // also adds permission entries into settings
-    BOOL hasAccessibility = AXIsProcessTrustedWithOptions(NULL);
-//    IOHIDRequestAccess(kIOHIDRequestTypeListenEvent); // add input monitoring entry in settings (has to run as start of app lifecycle (will not work any later))
-//    BOOL hasInputMonitoring = IOHIDCheckAccess(kIOHIDRequestTypeListenEvent) == kIOReturnSuccess;
-//    BOOL hasScreenRecording = CGPreflightScreenCaptureAccess();
-    return hasAccessibility;
+    //    BOOL hasAccessibility = AXIsProcessTrustedWithOptions(NULL);
+    //    IOHIDRequestAccess(kIOHIDRequestTypeListenEvent); // add input monitoring entry in settings (has to run as start of app lifecycle (will not work any later))
+    //    BOOL hasInputMonitoring = IOHIDCheckAccess(kIOHIDRequestTypeListenEvent) == kIOReturnSuccess;
+    //    BOOL hasScreenRecording = CGPreflightScreenCaptureAccess();
+    return YES;
 }
 /* rendering - app windows (eg: permissionWindow, prefsWindow (via: [app->prefsController window]), etc.) */
 - (void) renderAndShowPermissionWindow {
@@ -86,14 +86,20 @@
         }
     }
 }
+- (void) openPrefs {
+    [helperLib activateWindow: [prefsController window]];
+    [prefs render: [prefsController window]];
+    [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyRegular]; //make dock icon visible
+}
 - (void) openEditor {
     [helperLib activateWindow: [editorController window]];
     [prefs render: [editorController window]];
     [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyRegular]; //make dock icon visible
 }
-- (void) openPrefs {
-    [helperLib activateWindow: [prefsController window]];
-    [prefs render: [prefsController window]];
-    [[NSApplication sharedApplication] setActivationPolicy: NSApplicationActivationPolicyRegular]; //make dock icon visible
+- (void) refreshEditor {
+    [self->editorController close];
+    self->editorController = [[profileEditorWindowController alloc] initWithWindowNibName: @"profileEditor"];
+    [self->editorController loadWindow];
+    [self openEditor];
 }
 @end

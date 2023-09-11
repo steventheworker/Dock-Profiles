@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype) init: (NSWindow*) window : (NSMenu*) menu;
 - (void) openPrefs;
 - (void) openEditor;
+- (void) refreshEditor;
 - (void) addMenuIcon: (NSMenu*) menu;
 - (void) renderAndShowPermissionWindow;
 - (void) toggleMenuIcon;

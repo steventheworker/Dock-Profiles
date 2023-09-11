@@ -5,6 +5,7 @@
 //  Created by Steven G on 10/23/22.
 //
 
+#import "../AppDelegate.h"
 #import "Apps.h"
 #import "prefs.h"
 #import "helper-lib.h"
@@ -57,7 +58,7 @@ NSMutableDictionary* Config = nil; // uses the "data" NSUserDefault to hold json
 
 NSString* iconPath(NSString* appPath) {return [NSString stringWithFormat:@"%@/%@", appPath, @"Contents/Resources/AppIcon.icns"];}
 void AddAppToConfig(NSString* name, NSString* path) {
-    if (![[Config[@"apps"] allKeys] count]) Config[@"apps"] = [NSMutableDictionary new]; // [Config insertValue:[] inPropertyWithKey:@"apps"];
+    if (![Config[@"apps"] count]) Config[@"apps"] = [NSMutableDictionary new]; // [Config insertValue:[] inPropertyWithKey:@"apps"];
     Config[@"apps"][name] = @{
         @"name": name,
         @"path": path,
@@ -65,7 +66,9 @@ void AddAppToConfig(NSString* name, NSString* path) {
     };
 }
 void saveToPrefs(void) {
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject: Config options: NSJSONWritingPrettyPrinted error: nil];
+    NSError* error = nil;
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject: Config options: NSJSONWritingPrettyPrinted error: &error];
+    if (error) return NSLog(@"Error serializing JSON: %@", error);
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject: jsonData forKey: @"data"];
     [userDefaults synchronize];
@@ -76,10 +79,15 @@ void saveToPrefs(void) {
 + (NSDictionary*) getApp: (NSString*) appName {return Config[@"apps"][appName];}
 + (void)loadConfig:(void (^)(void))cb {
     Config = [NSMutableDictionary dictionaryWithDictionary: DefaultConfig];
-    NSData* jsonData = [[NSUserDefaults standardUserDefaults] dataForKey:@"data"];
-    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData ? jsonData : [NSData dataWithBytes:nil length:0] options:NSJSONReadingAllowFragments error:nil];
+    NSData* jsonData = [[NSUserDefaults standardUserDefaults] dataForKey: @"data"];
+    NSDictionary* jsonDict = [NSJSONSerialization JSONObjectWithData: jsonData ? jsonData : [NSData dataWithBytes: nil length: 0] options: NSJSONReadingAllowFragments error: nil];
     [Config addEntriesFromDictionary: jsonDict];
-    if (![[Config[@"apps"] allKeys] count]) [Apps saveAppList : cb]; else cb(); // get full apps list (if DNE), save in config.json
+    if (![Config[@"apps"] count]) {  // get full apps list (if DNE), save in "config.json" (ie: the data nsdefault
+        if ([helperLib isAppSandboxed]) {
+            saveToPrefs();
+            cb();
+        } else [Apps saveAppList: cb]; //unsandboxed runs systemprofiler
+    } else cb();
 }
 + (void) saveAppList : (void(^)(void)) cb {
     void (^processShellOutput)(NSString* data) = ^(NSString* data) {
@@ -114,5 +122,15 @@ void saveToPrefs(void) {
     }];
     [[outputPipe fileHandleForReading] readToEndOfFileInBackgroundAndNotify];
     [task launch];
+}
++ (void) processImportedTxt: (NSString*) jsonString {
+    NSError* error;
+    NSData* jsonData = [jsonString dataUsingEncoding: NSUTF8StringEncoding];
+    NSDictionary* importedData = [NSJSONSerialization JSONObjectWithData: jsonData options: 0 error: &error];
+    if (error) return NSLog(@"Error parsing JSON: %@", [error localizedDescription]);
+    [Config addEntriesFromDictionary: importedData];
+    saveToPrefs();
+    AppDelegate* del = (AppDelegate *) [[NSApplication sharedApplication] delegate];
+    [del->app refreshEditor];
 }
 @end

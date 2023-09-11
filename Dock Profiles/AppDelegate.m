@@ -9,9 +9,6 @@
 #import "src/globals.h"
 #import "src/helper-lib.h"
 #import "src/prefs.h"
-#import "src/app.h"
-
-App* app = nil;
 
 /*
     AppDelate

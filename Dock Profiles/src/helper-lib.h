@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 //misc
 + (void) activateWindow: (NSWindow*) window;
 + (NSImage*) resizedImage: (NSImage*) sourceImage toPixelDimensions: (NSSize) newSize;
++ (BOOL) isAppSandboxed;
 + (void) restartApp;
 @end
 NS_ASSUME_NONNULL_END

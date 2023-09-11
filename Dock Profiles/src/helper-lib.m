@@ -93,6 +93,23 @@ NSDictionary* persistentAppInfo(NSDictionary* persistentDict) {
     [NSApp activateIgnoringOtherApps: YES];
     [window makeKeyAndOrderFront: nil];
 }
++ (BOOL)isAppSandboxed {
+    BOOL isSandboxed = YES;
+    NSDictionary *entitlements = nil;
+    SecCodeRef codeRef = NULL;
+    if (SecCodeCopySelf(kSecCSDefaultFlags, &codeRef) == errSecSuccess) {
+        CFDictionaryRef codeDict = NULL;
+        if (SecCodeCopySigningInformation(codeRef, kSecCSSigningInformation, &codeDict) == errSecSuccess) {
+            if (codeDict) {
+                entitlements = CFBridgingRelease(CFDictionaryGetValue(codeDict, kSecCodeInfoEntitlementsDict));
+                if (entitlements && entitlements[@"com.apple.security.app-sandbox"] != nil) isSandboxed = [entitlements[@"com.apple.security.app-sandbox"] boolValue];
+                else NSLog(@"Entitlements dictionary is NULL.");
+            } else NSLog(@"Signing information dictionary is NULL.");
+        }
+    }
+    return isSandboxed;
+}
+
 
 /* Stolen from: https://stackoverflow.com/questions/15305845/how-can-a-mac-gui-app-relaunch-itself-without-using-sparkle */
 + (void) restartApp {

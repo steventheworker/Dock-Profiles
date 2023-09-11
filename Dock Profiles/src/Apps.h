@@ -10,11 +10,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Apps : NSObject
-+ (void) loadConfig: (void (^)(void))cb;
-+ (void) saveAppList: (void(^)(void)) cb;
-
 + (NSDictionary*) apps;
 + (NSDictionary*) getApp: (NSString*) appName;
++ (void) loadConfig: (void (^)(void))cb;
++ (void) saveAppList: (void(^)(void)) cb;
++ (void) processImportedTxt: (NSString*) jsonString;
 @end
 
 NS_ASSUME_NONNULL_END
