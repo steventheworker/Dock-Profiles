@@ -9,6 +9,8 @@
 #import "prefs.h"
 #import "globals.h"
 #import "Apps.h"
+#import "../AppDelegate.h"
+
 @import UniformTypeIdentifiers;
 
 @interface prefsWindowController ()
@@ -63,5 +65,17 @@
     NSInteger button = [alert runModal];
     if (button != NSAlertFirstButtonReturn) return;
     [Apps processImportedTxt: [inputTextField stringValue]];
+}
+- (void) confirmClearSettings {
+    NSAlert* alert = [[NSAlert alloc] init];
+    [alert setMessageText: @"Confirmation"];
+    [alert setInformativeText: @"Are you sure you want to proceed?"];
+    [alert addButtonWithTitle: @"Clear Settings & Data"];
+    [alert addButtonWithTitle: @"Cancel"];
+    NSModalResponse response = [alert runModal];
+    if (response == NSAlertSecondButtonReturn) return;
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName: [[NSBundle mainBundle] bundleIdentifier]];
+    AppDelegate* del = (AppDelegate *) [[NSApplication sharedApplication] delegate];
+    [del->app refreshEditor];
 }
 @end

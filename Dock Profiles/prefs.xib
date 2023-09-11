@@ -38,9 +38,9 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aAn-UH-FlM">
-                        <rect key="frame" x="8" y="182" width="106" height="32"/>
+                        <rect key="frame" x="13" y="38" width="106" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Export Data" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="m4h-B7-nuq">
+                        <buttonCell key="cell" type="bevel" title="Export Data" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="m4h-B7-nuq">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -53,9 +53,9 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4RM-Dd-Dap">
-                        <rect key="frame" x="8" y="150" width="106" height="32"/>
+                        <rect key="frame" x="111" y="38" width="106" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Import Data" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4TX-ym-X5Z">
+                        <buttonCell key="cell" type="bevel" title="Import Data" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4TX-ym-X5Z">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -63,6 +63,21 @@
                             <binding destination="-2" name="target" keyPath="self" id="ufX-Sf-N1h">
                                 <dictionary key="options">
                                     <string key="NSSelectorName">importData</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0M9-kU-S0M">
+                        <rect key="frame" x="16" y="13" width="147" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="inline" title="Clear Settings &amp; Data" bezelStyle="inline" image="clear" catalog="system" imagePosition="leading" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="42H-aE-hvz">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="-2" name="target" keyPath="self" id="Jhw-gU-i0J">
+                                <dictionary key="options">
+                                    <string key="NSSelectorName">confirmClearSettings</string>
                                 </dictionary>
                             </binding>
                         </connections>
@@ -75,5 +90,6 @@
     </objects>
     <resources>
         <image name="NSAdvanced" width="32" height="32"/>
+        <image name="clear" catalog="system" width="16" height="14"/>
     </resources>
 </document>
