@@ -9,5 +9,7 @@
 #define globals_h
 
 #include <stdio.h>
+#import <Foundation/Foundation.h>
+
 void setTimeout(void(^cb)(void), int delay);
 #endif /* globals_h */
