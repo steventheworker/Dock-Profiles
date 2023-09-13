@@ -109,7 +109,14 @@ NSDictionary* persistentAppInfo(NSDictionary* persistentDict) {
     }
     return isSandboxed;
 }
-
++ (void) killDock {
+    //(Execute shell command) "killall dock"
+    NSString* killCommand = [@"/usr/bin/killall " stringByAppendingString:@"Dock"];
+    NSTask *task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/bin/bash"];
+    [task setArguments:@[ @"-c", killCommand]];
+    [task launch];
+}
 
 /* Stolen from: https://stackoverflow.com/questions/15305845/how-can-a-mac-gui-app-relaunch-itself-without-using-sparkle */
 + (void) restartApp {

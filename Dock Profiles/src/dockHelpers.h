@@ -10,7 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface dockHelpers : NSObject
-
++ (NSDictionary*) dockItemDictWithType : (long) type;
++ (NSDictionary*) dockItemDictWithURL : (NSURL*) url;
 @end
 
 NS_ASSUME_NONNULL_END
