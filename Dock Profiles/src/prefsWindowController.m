@@ -6,8 +6,9 @@
 //
 
 #import "prefsWindowController.h"
-#import "prefs.h"
 #import "globals.h"
+#import "helper-lib.h"
+#import "prefs.h"
 #import "Apps.h"
 #import "../AppDelegate.h"
 
